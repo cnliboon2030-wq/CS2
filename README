@@ -18,3 +18,16 @@
 - Inputs : Student name, subject, grade value
 - Output : Average grade per subject and overall
 
+## Example Output
+
+START 
+Enter Student Name : Jam
+How many subjects? : 4
+
+Enter grade for subject 1 : 85
+Enter grade for subject 2 : 90
+Enter grade for subject 3 : 78
+Enter grade for subject 4 : 92
+Jam's overall average is : 86.25
+
+
