@@ -1,6 +1,8 @@
 
 # Student Grade Calculator Code : GradeKeeper
 
+print("==== Welcome to the Grade Calculator ====")
+
 def grade_calculator():
   name = input("Enter your name:")
   print(f"Hello, {name}! Let's calculate your final average together!")
