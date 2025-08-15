@@ -2,6 +2,17 @@
 
 This file lists all of the updates made to our project : Gradekeeper.
 
+## Version 1.3.0 (Panistante)
+- Added "Best Subject" feature that shows your highest-scoring subject.
+- Added random motivational messages after showing grades.
+- Now checks if grades are between 0 and 100.
+
+### Changes
+- You now enter subject names instead of just numbers (e.g., "Math" instead of "Subject 1").
+
+### Fixes
+- Fixed problem where wrong grades could mess up the average by asking you to re-enter them.
+
 ## Version v1.21 - August 15, 2025 (Barquin)
 - Made it so that you cannot type a grade higher than 100 and lower than 0
 - Changed the remarks to match that of typical Philippine schools, especially those under DepED
