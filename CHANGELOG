@@ -1,0 +1,17 @@
+# ChangeLog
+
+This file lists all of the updates made to our project : Gradekeeper.
+
+## Version v1.10 - August 15, 2025
+- Added 
+-- 
+
+## Version v1.01 - August 15, 2025
+- Added "remarks" based on the user's grades
+--
+
+## Version v1.00 - August 15, 2025
+- First version of the program.
+- user can :
+  * Enter their name
+  * Calculate their average
