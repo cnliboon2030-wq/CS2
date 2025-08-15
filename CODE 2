@@ -12,5 +12,13 @@ def grade_calculator():
 average = total / subjects
 print(f"\n{name}, your final average grade is : {average}")
 
+if average >= 90:
+        print("Remark: Excellent!")
+    elif average >= 80:
+        print("Remark: Good job!")
+    else:
+        print("Remark: Needs improvement.")
+
+
 
   
