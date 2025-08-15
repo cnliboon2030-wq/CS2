@@ -10,13 +10,22 @@ subjects = int(input("How many subjects do you have?"))
 #Creates a function to calculate the grade
 def calculate_grade():
     total = 0
-    for i in range(1, subjects + 1):
-        grade = float(input(f"Enter grade for subject {i}: "))
-        while grade > 100:
-            grade = float(input(f"Invalid input. Enter grade for subject {i}:"))
-        total += grade
+    for i in range(subjects):
+    subject_list = ""
+    grades = ""
+        subject_name = input(f"Enter name of subject{i+1}")
+        grade = float(input(f"Enter grade for {subject_name:"))
+        while grade < 0 or grade > 100:
+            grade = float(input(f"Invalid! Enter grade for {subject_name} (0-100):"))
+            subject_lists.append(subject_name)
+            grades.append(grade)
+
+    total += grade
     average = total / subjects
     return average
+
+highest_index = grades.index(max(grades))
+print(f"Your best subject is {subject_list[highest_index]} with a score of {grades[highest_index]}!")
 
 #Calls on the function
 finalgrade = calculate_grade()
@@ -35,5 +44,17 @@ elif finalgrade >= 75:
      print("Remark: Fairly Satisfactory")
 else:
      print("Remark: Did Not Meet Expectations")
+
+import random
+
+messages = [ 
+    "Keep pushing!",
+    "You're doing great!",
+    "Proud of you!",
+    "Next time will be even better!"
+]
+
+print(random.choice{messages})
+
 
 Members : Chloe Liboon, Ashton Barquin, Justin Panistante
