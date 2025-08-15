@@ -1,0 +1,16 @@
+# Student Grade Calculator Code : GradeKeeper
+
+def grade_calculator():
+  name = input("Enter your name:")
+  subjects = int(input("How many subject do you have?"))
+  total = 0
+
+  for i in range(1, subjects + 1)
+    grade = float(input(f"Enter grade for {i}: "))
+    total += grade
+
+average = total / subjects
+print(f"\n{name}, your final average grade is : {average}")
+
+
+  
