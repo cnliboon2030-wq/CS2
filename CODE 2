@@ -2,6 +2,8 @@
 
 def grade_calculator():
   name = input("Enter your name:")
+  print("Hello, {name}! Let's calculate your final grade together")
+
   subjects = int(input("How many subject do you have?"))
   total = 0
 
