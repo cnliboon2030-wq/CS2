@@ -10,5 +10,6 @@ def grade_calculator():
     total += grade
 
 average = total / subjects
-print(f"\n{name}, your final average grade is : {average :2f} ")
+print(f"\n{name}, your final average grade is : {round(average,2)}")
+
   
