@@ -1,3 +1,4 @@
+
 # Student Grade Calculator Code : GradeKeeper
 
 def grade_calculator():
@@ -13,5 +14,7 @@ def grade_calculator():
 
 average = total / subjects
 print(f"\n{name}, your final average grade is : {round(average,2)}")
+
+print("Thank you for using GradeKeeper!")
 
   
