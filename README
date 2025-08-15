@@ -1,24 +1,30 @@
 # Student Grade Manager : Gradekeeper
 
 ## Problem Statement
-- Students and teachers often need to track academic performance, but manually computing averages or keeping records can be difficult. GradeKeeper aims to provide a simple tool used to record, organize, and summarize student grades.
+  - Students and teachers often need to track academic performance, but manually computing averages or keeping records can be difficult. GradeKeeper aims to provide a simple tool used to record, organize, and summarize student grades.
 
 ## Planned Features
-- Add student : Enter the student name and basic information
-- Input Grades : Inputs grades per subject
-- Computation : Computes the average grade
-- Provides Display : Displays the student grades
+  - Add student : Enter the student name and basic information
+  - Input Grades : Inputs grades per subject
+  - Computation : Computes the average grade
+  - Provides Display : Displays the student grades
+
+## Planned Inputs and Outputs
+  - Inputs : Student name, Subject name, Grade Value
+  - Outputs : Overall Average, Remarks
 
 ## Example Output
 
-START 
-Enter Student Name : Jam
-How many subjects? : 4
+  START 
+  Enter Student Name : Jam
+  How many subjects? : 4
 
-Enter grade for subject 1 : 85
-Enter grade for subject 2 : 90
-Enter grade for subject 3 : 78
-Enter grade for subject 4 : 92
-Jam's overall average is : 86.25
+  Enter grade for subject 1 : 85
+  Enter grade for subject 2 : 90
+  Enter grade for subject 3 : 78
+  Enter grade for subject 4 : 92
+  Jam's overall average is : 86.25
+
+Members : Ashton Barquin, Chloe Liboon, Justin Panistante
 
 
