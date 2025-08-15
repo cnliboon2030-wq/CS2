@@ -3,20 +3,11 @@
 ## Problem Statement
 - Students and teachers often need to track academic performance, but manually computing averages or keeping records can be difficult. GradeKeeper aims to provide a simple tool used to record, organize, and summarize student grades.
 
-## Project Objective
-- Allow users to input grades within multiple subjects
-- Compute average grades automatically
-- Display grade summaries regarding individual students
-
 ## Planned Features
 - Add student : Enter the student name and basic information
 - Input Grades : Inputs grades per subject
 - Computation : Computes the average grade
 - Provides Display : Displays the student grades
-
-## Planned Inputs and Outputs
-- Inputs : Student name, subject, grade value
-- Output : Average grade per subject and overall
 
 ## Example Output
 
