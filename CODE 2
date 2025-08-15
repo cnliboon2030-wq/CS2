@@ -1,5 +1,6 @@
 # Student Grade Calculator Code : GradeKeeper
 
+import random
 #Gets the user's name
 name = input("Enter your name:")
 print(f"Hello, {name}! Let's calculate your final grade together")
@@ -7,27 +8,29 @@ print(f"Hello, {name}! Let's calculate your final grade together")
 #Gets the amount of subjects
 subjects = int(input("How many subjects do you have?"))
 
+
+subject_list = list()
+grades = list()
+        
 #Creates a function to calculate the grade
 def calculate_grade():
     total = 0
     for i in range(subjects):
-    subject_list = ""
-    grades = ""
-        subject_name = input(f"Enter name of subject{i+1}")
-        grade = float(input(f"Enter grade for {subject_name:"))
+        subject_name = input(f"Enter name of subject {i+1}")
+        grade = float(input(f"Enter grade for {subject_name}:"))
         while grade < 0 or grade > 100:
             grade = float(input(f"Invalid! Enter grade for {subject_name} (0-100):"))
-        subject_lists.append(subject_name)
+        subject_list.append(subject_name)
         grades.append(grade)
-    total += grade
+        total += grade
     average = total / subjects
     return average
 
-highest_index = grades.index(max(grades))
-print(f"Your best subject is {subject_list[highest_index]} with a score of {grades[highest_index]}!")
-
 #Calls on the function
 finalgrade = calculate_grade()
+
+highest_index = grades.index(max(grades))
+print(f"Your best subject is {subject_list[highest_index]} with a score of {grades[highest_index]}!")
 
 #Prints the final grade
 print(f"\n{name}, your final average grade is : {finalgrade}")
@@ -44,8 +47,6 @@ elif finalgrade >= 75:
 else:
      print("Remark: Did Not Meet Expectations")
 
-import random
-
 messages = [ 
     "Keep pushing!",
     "You're doing great!",
@@ -53,7 +54,7 @@ messages = [
     "Next time will be even better!"
 ]
 
-print(random.choice{messages})
+print(random.choice(messages))
 
 
 #Members : Chloe Liboon, Ashton Barquin, Justin Panistante
