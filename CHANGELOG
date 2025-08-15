@@ -2,17 +2,33 @@
 
 This file lists all of the updates made to our project : Gradekeeper.
 
-## Version v1.10 - August 15, 2025
-- Added greetings at the start of the program 
+## Version v1.21 - August 15, 2025 (Barquin)
+- Made it so that you cannot type a grade higher than 100 and lower than 0
+- Changed the remarks to match that of typical Philippine schools, especially those under DepED
+--
 
+## Version v1.20 - August 15, 2025 (Barquin)
+- Complete overhaul of the program
+- First testing of the program
+- Moved the name and subject input outside of the function so that the function only does one action
+- Moved the average calculation inside the function
+- Fixed bug where program immediately crashes by making tweaks such as calling on the function and adding colons where it was forgotten
+- Fixed bug where it displayed "{name}" instead of the inputted name on line 3
+- Fixed the grammar of the sentences created by the outputs
+- Added comments
+- Fixed indentation, especially inside the function
+--
+
+## Version v1.10 - August 15, 2025 (Liboon)
+- Added greetings at the start of the program 
 -- 
 
-## Version v1.01 - August 15, 2025
+## Version v1.01 - August 15, 2025 (Liboon)
 - Added "remarks" based on the user's grades
 --
 
-## Version v1.00 - August 15, 2025
+## Version v1.00 - August 15, 2025 (Liboon)
 - First version of the program.
-- user can :
+- User can :
   * Enter their name
   * Calculate their average
