@@ -15,8 +15,8 @@ This file lists all of the updates made to our project : Gradekeeper.
 - Fixed bug where program immediately crashes by making tweaks such as calling on the function and adding colons where it was forgotten
 - Fixed bug where it displayed "{name}" instead of the inputted name on line 3
 - Fixed the grammar of the sentences created by the outputs
-- Added comments
 - Fixed indentation, especially inside the function
+- Added comments
 --
 
 ## Version v1.10 - August 15, 2025 (Liboon)
