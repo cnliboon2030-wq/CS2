@@ -17,6 +17,13 @@ def grade_calculator():
 average = total / subjects
 print(f"\n{name}, your final average grade is : {round(average,2)}")
 
+if average >= 90:
+  print("Remark : Keep up the good work!")
+elif average >= 80:
+  print("Remark : Good job!")
+else:
+  print("It's alright! Try harder next time.")
+
 print("Thank you for using GradeKeeper!")
 
   
