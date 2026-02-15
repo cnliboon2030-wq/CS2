@@ -2,10 +2,16 @@
 
 This file lists all of the updates made to our project : Gradekeeper.
 
-## Version 1.3.1 (Barquin)
+## Version 1.4.0 - February 15, 2025 (Barquin)
+- Main new feature: Supports calculations for GWAs
+- Fixed formatting for inputting
+- Added additional remarks for honors and director's list
+- Added "Lowest Score" Feature that shows your lowest scoring subject.
+
+## Version 1.3.1 - August 15, 2025 (Barquin)
 - Bug fixing
 
-## Version 1.3.0 (Panistante)
+## Version 1.3.0 - August 15, 2025 (Panistante)
 - Added "Best Subject" feature that shows your highest-scoring subject.
 - Added random motivational messages after showing grades.
 - Now checks if grades are between 0 and 100.
