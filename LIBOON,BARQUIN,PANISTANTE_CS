@@ -2,50 +2,118 @@
 
 import random
 #Gets the user's name
-name = input("Enter your name:")
-print(f"Hello, {name}! Let's calculate your final grade together")
+name = input("Enter your name: ")
 
+print(f"Hello, {name}! Let's calculate your final grade together.")
+#Gives a condition
+condition = int(input("Enter 1 to calculate your numerical grade, or enter 2 to calculate your GWA: "))
 #Gets the amount of subjects
-subjects = int(input("How many subjects do you have?"))
-
-
+subjects = int(input("How many subjects do you have? Enter here: "))
+#Prepares necessary lists
 subject_list = list()
+
 grades = list()
-        
-#Creates a function to calculate the grade
-def calculate_grade():
+
+#Creates functions to calculate the grades
+def calculate_GWA():
+    total_gwa = 0
+    total_units = 0
+    for i in range(subjects):
+        subject_name = input(f"Enter name of subject {i+1}: ")
+        units = float(input(f"Enter amount of units for {subject_name}: "))
+        gwa = float(input(f"Enter GWA for {subject_name}: "))
+        while gwa < 1.00 or gwa > 5.00:
+            gwa = float(input(f"Invalid! Enter GWA for {subject_name} (1.00-5.00): "))
+        subject_list.append(subject_name)
+        grades.append(gwa)
+        total_gwa += gwa
+        total_units += units
+    average = total_gwa / total_units
+    return average
+
+def calculate_numerical_grade():
     total = 0
     for i in range(subjects):
-        subject_name = input(f"Enter name of subject {i+1}")
-        grade = float(input(f"Enter grade for {subject_name}:"))
+        subject_name = input(f"Enter name of subject {i+1}: ")
+        grade = float(input(f"Enter grade for {subject_name}: "))
         while grade < 0 or grade > 100:
-            grade = float(input(f"Invalid! Enter grade for {subject_name} (0-100):"))
+            grade = float(input(f"Invalid! Enter grade for {subject_name} (0-100): "))
         subject_list.append(subject_name)
         grades.append(grade)
         total += grade
     average = total / subjects
     return average
+    
+#Calls on the functions
 
-#Calls on the function
-finalgrade = calculate_grade()
+if condition == 1:
+    
+    #Prints final grade
+    
+    finalgrade = calculate_numerical_grade()
+    
+    print(f"\n{name}, your final average grade is : {finalgrade:.0f}")
+    
+    #Prints honors remark
+    
+    if 97.5 <= finalgrade <= 100:
+        print("You achieved Highest Honors! Congratulations!")
+    elif 94.5 <= finalgrade < 97.5:
+        print("You achieved High Honors! Congratulations!")
+    elif 89.5 <= finalgrade < 94.5:
+        print("You achieved Honors! Congratulations!")
 
-highest_index = grades.index(max(grades))
-print(f"Your best subject is {subject_list[highest_index]} with a score of {grades[highest_index]}!")
+    #Gives a remark
+    if finalgrade >= 90:
+        print("Remark: Outstanding!")
+    elif finalgrade >= 85:
+        print("Remark: Very Satisfactory")
+    elif finalgrade >= 80:
+        print("Remark: Satisfactory")
+    elif finalgrade >= 75:
+        print("Remark: Fairly Satisfactory")
+    else:
+        print("Remark: Did Not Meet Expectations")
+    
+    highest_index = grades.index(max(grades))
+    lowest_index = grades.index(min(grades))
+    
+    print(f"Your best subject is {subject_list[highest_index]} with a grade of {grades[highest_index]}! Amazing!")
+    print(f"However, your worst subject is {subject_list[lowest_index]} with a grade of {grades[lowest_index]}. Try studying for this subject more.")
 
-#Prints the final grade
-print(f"\n{name}, your final average grade is : {finalgrade}")
+elif condition == 2:
+    
+    #Prints final grade
+    
+    finalgrade = calculate_GWA()
+        
+    print(f"\n{name}, your final average grade is : {finalgrade:.2f}")
+    
+    #Prints DL remark
+    
+    if finalgrade <= 1.50:
+        print("You're in the Director's List! Congratulations!")
 
-#Gives a remark
-if finalgrade >= 90:
-     print("Remark: Outstanding!")
-elif finalgrade >= 85:
-     print("Remark: Very Satisfactory")
-elif finalgrade >= 80:
-     print("Remark: Satisfactory")
-elif finalgrade >= 75:
-     print("Remark: Fairly Satisfactory")
-else:
-     print("Remark: Did Not Meet Expectations")
+    #Gives a remark
+    
+    if 1.25 > finalgrade >= 1.00:
+        print("Remark: Excellent!")
+    elif 1.50 >= finalgrade >= 1.25:
+        print("Remark: Very Good")
+    elif 2.00 > finalgrade > 1.50:
+        print("Remark: Good")
+    elif 2.50 >= finalgrade >= 2.00:
+        print("Remark: Satisfactory")
+    elif 3.00 >= finalgrade > 2.50:
+        print("Remark: Fair")
+    elif 5.00 >= finalgrade > 3.00:
+        print("Remark: Failed")
+        
+    highest_index = grades.index(min(grades))
+    lowest_index = grades.index(max(grades))
+    
+    print(f"Your best subject is {subject_list[highest_index]} with a grade of {grades[highest_index]:.2f}! Amazing!")
+    print(f"However, your worst subject is {subject_list[lowest_index]} with a grade of {grades[lowest_index]:.2f}. Try studying for this subject more.")
 
 messages = [ 
     "Keep pushing!",
