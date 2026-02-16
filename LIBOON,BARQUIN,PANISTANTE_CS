@@ -274,7 +274,7 @@ def delete_value(subject_input):
 # CRUD LOOP
 # -----------------------------------------
 
-while program_ongoing = True:
+while program_ongoing == True:
     crud_condition = int(input("Enter 1 to add a subject, enter 2 to get the grade of a specific subject, enter 3 to update a subject, enter 4 to delete a subject, enter 5 to create a table showing all the subjects, or enter 6 to end the program."))
     
     if crud_condition = 1:
