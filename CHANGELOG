@@ -2,6 +2,9 @@
 
 This file lists all of the updates made to our project : Gradekeeper.
 
+## Version 1.5.0 - February 16, 2025 (Barquin)
+- Main new feature: Added CRUD functions to the grades after inputting them.
+
 ## Version 1.4.0 - February 15, 2025 (Barquin)
 - Main new feature: Supports calculations for GWAs
 - Fixed formatting for inputting
