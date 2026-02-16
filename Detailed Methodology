@@ -1,77 +1,63 @@
-# Detailed Methodology
+Detailed Methodology
 
-## How Core Features Were Implemented
-The GradeKeeper system was designed using a simple and structured programming approach to ensure accuracy and ease of use.
+Repository Overview : 
+- GradeKeeper is a Python-based console application organized into modular functions. The repository contains:
+    * gradekeeper.py – Main program file
+    * README.md – Documentation
+ - The program separates computation, display, and CRUD operations into functions for clarity and maintainability.
 
-- **Student Data Collection:**  
-  The program prompts the user to enter the student’s name and the number of subjects. This allows the system to adjust the computation based on how many grades will be recorded.
+How Core Features Were Implemented : 
+- Dual Grading System
+    * Users choose between:
+        1. Numerical Average (0–100)
+        2. GWA (1.00–5.00 weighted system)
+    * Two functions handle computation:
+        1. calculate_numerical_grade() → simple average
+        2. calculate_GWA() → weighted average using units
+    * Conditional statements (if condition == 1 or 2) control which system runs.
 
-- **Grade Input:**  
-  A loop is used to continuously request grades until all subjects have been entered. This helps prevent missing data and keeps the process organized.
+- Data Storage
+    * Three parallel lists store data:
+      1. subject_list
+      2. grades
+      3. units_list
+    * Each index represents one subject’s complete data. This simplifies indexing and calculations.
 
-- **Average Computation:**  
-  The program calculates the overall average by adding all grade values and dividing the total by the number of subjects. Automating this process minimizes human error.
+- Honors & Remarks
+    * Conditional ranges classify:
+      1. Highest Honors / High Honors / Honors (Numerical)
+      2. Director’s List (GWA)
+      3. Performance remarks
+    * This adds meaningful academic feedback beyond raw averages.
 
-- **Display of Results:**  
-  Once the computation is complete, the program displays the student’s name along with their overall average in a clear and readable format.
+- CRUD Operations
+    * Four functions manage subject records:
+        1. Add
+        2. Get
+        3. Update
+        4. Delete
+    * After modifications, the final grade is recalculated to maintain accuracy.
 
----
+- Technologies Used (With Justification) : 
+* Python – Simple syntax, ideal for console applications and structured programming.
+* Lists – Flexible and efficient for storing dynamic subject data.
+* Conditional Statements & Loops – Used for validation, classification, and record management.
+* Random Module – Used to display motivational messages for user engagement.
+* Backend–Frontend Communication
+    : The application is console-based:
+        * Backend: Python logic (calculations and data handling)
+        * Frontend: Terminal input/output
+    : There is no external database, API, or web interface.
 
-## Technologies Used (with Justification)
+- Key Design Decisions : 
+* Used parallel lists instead of classes for simplicity.
+* Used global variables for shared access in CRUD functions.
+* Designed as a text-based system to focus on logic rather than UI.
+* Trade-off: While simple and effective for small-scale use, this design is less scalable than an object-oriented or database-driven system.
 
-- **Python:**  
-  Python was selected because of its readability, beginner-friendly syntax, and efficiency in performing mathematical operations. It also allows for easier debugging and future improvements.
+- Ethical Considerations : 
+* No data is stored externally, ensuring user privacy.
+* Grade classifications are rule-based and transparent.
+* Input validation prevents incorrect or invalid grading values.
 
-- **Command-Line Interface (CLI):**  
-  A text-based interface was chosen to keep the application lightweight and compatible with most devices without requiring additional software or advanced hardware.
-
----
-
-## Backend–Frontend Communication
-GradeKeeper currently operates as a standalone console application, meaning the backend and frontend are combined into one system.
-
-- **Frontend:** User inputs collected through the keyboard.
-- **Backend:** Python processes the data, performs the calculations, and displays the results.
-
-This setup simplifies development and is appropriate for a small academic project.
-
----
-
-## Key Design Decisions and Trade-offs
-
-- **Simplicity Over Complexity:**  
-  The developers prioritized a clean and easy-to-use structure rather than implementing advanced features like databases or graphical interfaces. This makes the program ideal for beginner users.
-
-- **No Persistent Storage:**  
-  The system does not save grades after the program is closed. While this limits long-term record keeping, it reduces technical complexity and avoids potential data storage issues.
-
-- **Focus on Accuracy and Readability:**  
-  Clear prompts and formatted outputs were implemented so users can quickly understand the results without confusion.
-
----
-
-## Ethical Considerations in Programming Choices
-
-- **User Privacy:**  
-  The program only collects necessary academic information and does not store personal data, helping protect user privacy.
-
-- **Accessibility:**  
-  The command-line design allows the program to run on low-spec devices, making it accessible to a wider range of users.
-
-- **Fair Academic Use:**  
-  Automated grade computation reduces calculation mistakes and supports fair evaluation of student performance.
-
----
-
-# GitHub Repository
-
-The GradeKeeper repository contains the complete source code, documentation, and project updates.
-
-## Repository Contents
-- Source code for the Student Grade Manager  
-- README file with project overview  
-- Documentation describing features and usage  
-- Plans for future enhancements  
-
-## Purpose of the Repository
-The GitHub repository serves as a centralized p
+Motivational messages promote positive academic encouragement.
