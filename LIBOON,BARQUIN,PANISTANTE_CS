@@ -1,78 +1,109 @@
 # Student Grade Calculator Code : GradeKeeper
 
-import random
-#Gets the user's name
+import random  # Allows use of random motivational messages
+
+# Gets the user's name
 name = input("Enter your name: ")
 
 print(f"Hello, {name}! Let's calculate your final grade together.")
-#Gives a condition
+
+# Gives a condition (choose grading type)
 condition = int(input("Enter 1 to calculate your numerical grade, or enter 2 to calculate your GWA: "))
-#Gets the amount of subjects
+
+# Gets the amount of subjects
 subjects = int(input("How many subjects do you have? Enter here: "))
-#Prepares necessary lists
-subject_list = list()
 
-grades = list()
+# Prepares necessary lists to store subject data
+subject_list = list()   # Stores subject names
+grades = list()         # Stores grades
+units_list = list()     # Stores units per subject (used for GWA)
 
-units_list = list()
-#Initializes final grade
+# Initializes final grade
 finalgrade = 0
 
-program_ongoing = True
+program_ongoing = True  # Controls CRUD loop
 
-#Creates functions to calculate the grades
+# -----------------------------------------
+# FUNCTION: Calculate GWA (Weighted Average)
+# -----------------------------------------
 def calculate_GWA():
     total_gwa = 0
     total_units = 0
-    for i in range(subjects):
+    for i in range(subjects):  # Loop through each subject
         subject_name = input(f"Enter name of subject {i+1}: ")
         units = float(input(f"Enter amount of units for {subject_name}: "))
         gwa = float(input(f"Enter GWA for {subject_name}: "))
+        
+        # Validation for GWA range
         while gwa < 1.00 or gwa > 5.00:
             gwa = float(input(f"Invalid! Enter GWA for {subject_name} (1.00-5.00): "))
+        
+        # Store values
         subject_list.append(subject_name)
         grades.append(gwa)
         units_list.append(units)
+        
+        # Compute weighted total
         total_gwa += (gwa * units)
         total_units += units
-    average = total_gwa / total_units
+    
+    average = total_gwa / total_units  # Compute weighted average
     return average
 
+
+# -----------------------------------------
+# FUNCTION: Calculate Numerical Average
+# -----------------------------------------
 def calculate_numerical_grade():
     total = 0
-    for i in range(subjects):
+    for i in range(subjects):  # Loop through each subject
         subject_name = input(f"Enter name of subject {i+1}: ")
         grade = float(input(f"Enter grade for {subject_name}: "))
+        
+        # Validation for numerical grade
         while grade < 0 or grade > 100:
             grade = float(input(f"Invalid! Enter grade for {subject_name} (0-100): "))
+        
+        # Store values
         subject_list.append(subject_name)
         grades.append(grade)
-        units_list.append(1)
+        units_list.append(1)  # Default unit = 1 for numerical grading
+        
         total += grade
-    average = total / subjects
+    
+    average = total / subjects  # Compute simple average
     return average
-#Creates function to create a table
+
+
+# -----------------------------------------
+# FUNCTION: Create Table Output
+# -----------------------------------------
 def create_table():
     print(f"\n{name}, your grades are as follows:")
     print ("Subjects        | Grade")
+    
+    # Print each subject and grade
     for i in range(subjects):
         print(f"{subject_list[i]:<15} | {grades[i]:>5}")
+    
+    # Print final average
     print(f"{"Average":<15} | {finalgrade:>5}")
 
-#Calls on the functions
+
+# -----------------------------------------
+# MAIN PROGRAM LOGIC
+# -----------------------------------------
 
 if condition == 1:
     
-    #Prints final grade
-    
+    # Calculate numerical grade
     finalgrade = calculate_numerical_grade()
     
     create_table()
     
     print(f"\n{name}, your final average grade is : {finalgrade:.0f}")
     
-    #Prints honors remark
-    
+    # Honors classification
     if 97.5 <= finalgrade <= 100:
         print("You achieved Highest Honors! Congratulations!")
     elif 94.5 <= finalgrade < 97.5:
@@ -80,7 +111,7 @@ if condition == 1:
     elif 89.5 <= finalgrade < 94.5:
         print("You achieved Honors! Congratulations!")
 
-    #Gives a remark
+    # General remarks
     if finalgrade >= 90:
         print("Remark: Outstanding!")
     elif finalgrade >= 85:
@@ -92,6 +123,7 @@ if condition == 1:
     else:
         print("Remark: Did Not Meet Expectations")
     
+    # Identify best and worst subjects
     highest_index = grades.index(max(grades))
     lowest_index = grades.index(min(grades))
     
@@ -100,21 +132,18 @@ if condition == 1:
 
 elif condition == 2:
     
-    #Prints final grade
-    
+    # Calculate GWA
     finalgrade = calculate_GWA()
     
     create_table()
     
     print(f"\n{name}, your final average grade is : {finalgrade:.2f}")
     
-    #Prints DL remark
-    
+    # Director's List qualification
     if finalgrade <= 1.50:
         print("You're in the Director's List! Congratulations!")
 
-    #Gives a remark
-    
+    # GWA remarks
     if 1.25 > finalgrade >= 1.00:
         print("Remark: Excellent!")
     elif 1.50 >= finalgrade >= 1.25:
@@ -128,6 +157,7 @@ elif condition == 2:
     elif 5.00 >= finalgrade > 3.00:
         print("Remark: Failed")
         
+    # For GWA, lower value is better
     highest_index = grades.index(min(grades))
     lowest_index = grades.index(max(grades))
     
@@ -135,9 +165,14 @@ elif condition == 2:
     print(f"However, your worst subject is {subject_list[lowest_index]} with a grade of {grades[lowest_index]:.2f}. Try studying for this subject more.")
     
 else:
+    # Handles invalid condition input
     while (condition != 1) or (condition != 2):
         condition = int(input("Invalid condition input. Enter 1 to calculate your numerical grade, or enter 2 to calculate your GWA: "))
 
+
+# -----------------------------------------
+# Random Motivational Message
+# -----------------------------------------
 messages = [ 
     "Keep pushing!",
     "You're doing great!",
@@ -147,21 +182,31 @@ messages = [
 
 print(random.choice(messages))
 
-#Prepares CRUD functions
+
+# -----------------------------------------
+# CRUD FUNCTIONS (Create, Read, Update, Delete)
+# -----------------------------------------
+
 def add_value(new_subject, new_grade, new_units=1):
     global subjects
     global finalgrade
     total_units = 0
     finalgrade = 0
+    
+    # Add new subject data
     subject_list.append(new_subject)
     grades.append(new_grade)
     units_list.append(new_units)
     subjects += 1
+    
+    # Recalculate final grade
     for i in range(subjects):
         total_units += units_list[i]
         finalgrade += (grades[i] * units_list[i])
     finalgrade = finalgrade / total_units
+    
     print("Subject added.")
+
 
 def get_value(subject_input):
     subject_found = False
@@ -172,24 +217,30 @@ def get_value(subject_input):
     if subject_found == False:
         return "SUBJECT NOT FOUND"
 
+
 def update_value(subject_input, new_subject, new_grade, new_units=1):
     global finalgrade
     total_units = 0
     finalgrade = 0
     subject_found = False
+    
     for i in range(subjects):
         if subject_list[i] == subject_input:
             subject_list[i] = new_subject
             grades[i] = new_grade
             units_list[i] = new_units
             print("Subject updated.")
+            
+            # Recalculate final grade
             for i in range(subjects):
                 total_units += units_list[i]
                 finalgrade += (grades[i] * units_list[i])
             finalgrade = finalgrade / total_units
             subject_found = True
+            
     if subject_found == False:
         return "SUBJECT NOT FOUND"
+
 
 def delete_value(subject_input):
     global subjects
@@ -197,6 +248,7 @@ def delete_value(subject_input):
     total_units = 0
     finalgrade = 0
     subject_found = False
+    
     for i in range(subjects):
         if subject_list[i] == subject_input:
             subjects -= 1
@@ -204,18 +256,27 @@ def delete_value(subject_input):
             grades.remove(grades[i])
             units_list.remove(units_list[i])
             print("Subject deleted.")
+            
+            # Recalculate final grade
             for i in range(subjects):
                 total_units += units_list[i]
                 finalgrade += (grades[i] * units_list[i])
             finalgrade = finalgrade / total_units
+            
             subject_found = True
             break
+    
     if subject_found == False:
         return "SUBJECT NOT FOUND"
 
-#Calls CRUD functions
+
+# -----------------------------------------
+# CRUD LOOP
+# -----------------------------------------
+
 while program_ongoing = True:
     crud_condition = int(input("Enter 1 to add a subject, enter 2 to get the grade of a specific subject, enter 3 to update a subject, enter 4 to delete a subject, enter 5 to create a table showing all the subjects, or enter 6 to end the program."))
+    
     if crud_condition = 1:
         new_subject = input("Enter new subject: ")
         new_grade = input("Enter grade of new subject: ")
@@ -224,9 +285,11 @@ while program_ongoing = True:
         else:
             new_units = 1
         add_value(new_subject, new_grade, new_units)
+        
     if crud_condition = 2:
         subject_input = input("Enter the name of the subject you want to check: ")
         print(get_value(subject_input))
+        
     if crud_condition = 3:
         subject_input = input("Enter the name of the subject you want to update: ")
         new_subject = input("Update subject name: ")
@@ -236,14 +299,17 @@ while program_ongoing = True:
         else:
             new_units = 1
         update_value(subject_input, new_subject, new_grade, new_units=1)
+        
     if crud_condition = 4:
         subject_input = ("Enter the name of the subject you want to delete: ")
         delete_value(subject_input)
+        
     if crud_condition = 5:
         create_table()
+        
     if crud_condition = 6:
         program_ongoing = False
 
 print("Thank you for using Gradekeeper!")
 
-#Members : Chloe Liboon, Ashton Barquin, Justin Panistante
+Members : Liboon, Barquin, Panistante
