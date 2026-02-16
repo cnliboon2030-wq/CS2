@@ -277,37 +277,37 @@ def delete_value(subject_input):
 while program_ongoing == True:
     crud_condition = int(input("Enter 1 to add a subject, enter 2 to get the grade of a specific subject, enter 3 to update a subject, enter 4 to delete a subject, enter 5 to create a table showing all the subjects, or enter 6 to end the program."))
     
-    if crud_condition = 1:
+    if crud_condition == 1:
         new_subject = input("Enter new subject: ")
         new_grade = input("Enter grade of new subject: ")
-        if condition = 2:
+        if condition == 2:
             new_units = input("Enter units of new subject: ")
         else:
             new_units = 1
         add_value(new_subject, new_grade, new_units)
         
-    if crud_condition = 2:
+    if crud_condition == 2:
         subject_input = input("Enter the name of the subject you want to check: ")
         print(get_value(subject_input))
         
-    if crud_condition = 3:
+    if crud_condition == 3:
         subject_input = input("Enter the name of the subject you want to update: ")
         new_subject = input("Update subject name: ")
         new_grade = input("Update subject grade: ")
-        if condition = 2:
+        if condition == 2:
             new_units = input("Update subject units: ")
         else:
             new_units = 1
         update_value(subject_input, new_subject, new_grade, new_units=1)
         
-    if crud_condition = 4:
+    if crud_condition == 4:
         subject_input = ("Enter the name of the subject you want to delete: ")
         delete_value(subject_input)
         
-    if crud_condition = 5:
+    if crud_condition == 5:
         create_table()
         
-    if crud_condition = 6:
+    if crud_condition == 6:
         program_ongoing = False
 
 print("Thank you for using Gradekeeper!")
