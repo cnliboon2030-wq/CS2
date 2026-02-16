@@ -1,30 +1,130 @@
-# Student Grade Manager : Gradekeeper
+Student Grade Manager : GradeKeeper
 
-## Problem Statement
-  - Students and teachers often need to track academic performance, but manually computing averages or keeping records can be difficult. GradeKeeper aims to provide a simple tool used to record, organize, and summarize student grades.
+Problem Statement
+- Students often need an efficient way to compute and monitor their academic performance. Manually calculating averages, determining honors, and tracking subject records can be time-consuming and prone to errors.
 
-## Planned Features
-  - Add student : Enter the student name and basic information
-  - Input Grades : Inputs grades per subject
-  - Computation : Computes the average grade
-  - Provides Display : Displays the student grades
+What is Gradekeeper? 
+- GradeKeeper is a Python-based grade management system that allows users to compute either a numerical average or a GWA (General Weighted Average), display detailed results, generate remarks, and manage subject records using CRUD operations.
 
-## Planned Inputs and Outputs
-  - Inputs : Student name, Subject name, Grade Value
-  - Outputs : Overall Average, Remarks
+Implemented Features
+- User Greeting System
+- Accepts and displays the student’s name.
+- Dual Grading System
+    * Option 1: Numerical Grade Average (0–100 scale)
+    * Option 2: GWA Calculation (1.00–5.00 scale with units)
+- Automatic Computation
+    * Computes simple average for numerical grades
+    * Computes weighted average for GWA
+- Honors & Academic Remarks
+    * Highest Honors, High Honors, Honors (Numerical)
+    * Director’s List (GWA ≤ 1.50)
+    * Performance remarks based on computed average
+- Subject Performance Analysis
+    * Identifies best and worst performing subjects
+- Grade Table Display
+    * Displays formatted table of all subjects and grades
+- CRUD Operations
+    * Add Subject
+    * Get Subject Information
+    * Update Subject
+    * Delete Subject
+    * Re-display Grade Table
+- Motivational System
+    * Displays a random motivational message after computation
 
-## Example Output
+Program Flow : 
 
-  START 
-  Enter Student Name : Jam
-  How many subjects? : 4
+1, User enters name.
 
-  Enter grade for subject 1 : 85
-  Enter grade for subject 2 : 90
-  Enter grade for subject 3 : 78
-  Enter grade for subject 4 : 92
-  Jam's overall average is : 86.25
+2. User selects grading system (Numerical or GWA).
 
-Members : Ashton Barquin, Chloe Liboon, Justin Panistante
+3. User inputs number of subjects.
+
+4. User enters subject details.
+
+5. Program:
+    * Computes average
+    * Displays formatted table
+    * Shows honors/remarks
+    * Identifies best & worst subjects
+
+6. User may manage records using CRUD operations.
+
+7. Program ends when user selects exit.
+
+Planned Inputs and Outputs : 
+- Inputs : 
+    * Student name
+    * Grading type selection (1 or 2)
+    * Number of subjects
+    * Subject name
+    * Grade value
+    * Units (for GWA only)
+    * CRUD menu selections
+- Outputs : 
+    * Formatted subject-grade table
+    * Final computed average
+    * Academic honors (if applicable)
+    * Performance remark
+    * Best and worst subject
+    * Random motivational message
+
+Example Output (Numerical Mode) : 
+START
+Enter your name: Jam
+Enter 1 to calculate your numerical grade, or enter 2 to calculate your GWA: 1
+How many subjects do you have? Enter here: 4
+
+Enter name of subject 1: Math
+Enter grade for Math: 85
+Enter name of subject 2: Science
+Enter grade for Science: 90
+Enter name of subject 3: English
+Enter grade for English: 78
+Enter name of subject 4: History
+Enter grade for History: 92
+
+Jam, your grades are as follows:
+Subjects        | Grade
+Math            | 85
+Science         | 90
+English         | 78
+History         | 92
+Average         | 86.25
+
+Jam, your final average grade is: 86
+Remark: Very Satisfactory
+Your best subject is History with a grade of 92!
+However, your worst subject is English with a grade of 78.
+Keep pushing!
+
+Example Output (GWA Mode)
+Enter 2 to calculate your GWA
+
+Enter name of subject 1: Math
+Enter units for Math: 3
+Enter GWA for Math: 1.25
+...
+
+Final Average: 1.42
+You're in the Director's List!
+Remark: Very Good
+
+Technologies Used
+
+Python
+
+Lists for data storage
+
+Functions for modular programming
+
+Conditional statements for classification
+
+Looping structures for record management
+
+Members : Liboon, Barquin, Panistante
+
+
+Members : Liboon, Barquin, Panistante
 
 
