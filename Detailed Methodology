@@ -1,0 +1,77 @@
+# Detailed Methodology
+
+## How Core Features Were Implemented
+The GradeKeeper system was designed using a simple and structured programming approach to ensure accuracy and ease of use.
+
+- **Student Data Collection:**  
+  The program prompts the user to enter the student’s name and the number of subjects. This allows the system to adjust the computation based on how many grades will be recorded.
+
+- **Grade Input:**  
+  A loop is used to continuously request grades until all subjects have been entered. This helps prevent missing data and keeps the process organized.
+
+- **Average Computation:**  
+  The program calculates the overall average by adding all grade values and dividing the total by the number of subjects. Automating this process minimizes human error.
+
+- **Display of Results:**  
+  Once the computation is complete, the program displays the student’s name along with their overall average in a clear and readable format.
+
+---
+
+## Technologies Used (with Justification)
+
+- **Python:**  
+  Python was selected because of its readability, beginner-friendly syntax, and efficiency in performing mathematical operations. It also allows for easier debugging and future improvements.
+
+- **Command-Line Interface (CLI):**  
+  A text-based interface was chosen to keep the application lightweight and compatible with most devices without requiring additional software or advanced hardware.
+
+---
+
+## Backend–Frontend Communication
+GradeKeeper currently operates as a standalone console application, meaning the backend and frontend are combined into one system.
+
+- **Frontend:** User inputs collected through the keyboard.
+- **Backend:** Python processes the data, performs the calculations, and displays the results.
+
+This setup simplifies development and is appropriate for a small academic project.
+
+---
+
+## Key Design Decisions and Trade-offs
+
+- **Simplicity Over Complexity:**  
+  The developers prioritized a clean and easy-to-use structure rather than implementing advanced features like databases or graphical interfaces. This makes the program ideal for beginner users.
+
+- **No Persistent Storage:**  
+  The system does not save grades after the program is closed. While this limits long-term record keeping, it reduces technical complexity and avoids potential data storage issues.
+
+- **Focus on Accuracy and Readability:**  
+  Clear prompts and formatted outputs were implemented so users can quickly understand the results without confusion.
+
+---
+
+## Ethical Considerations in Programming Choices
+
+- **User Privacy:**  
+  The program only collects necessary academic information and does not store personal data, helping protect user privacy.
+
+- **Accessibility:**  
+  The command-line design allows the program to run on low-spec devices, making it accessible to a wider range of users.
+
+- **Fair Academic Use:**  
+  Automated grade computation reduces calculation mistakes and supports fair evaluation of student performance.
+
+---
+
+# GitHub Repository
+
+The GradeKeeper repository contains the complete source code, documentation, and project updates.
+
+## Repository Contents
+- Source code for the Student Grade Manager  
+- README file with project overview  
+- Documentation describing features and usage  
+- Plans for future enhancements  
+
+## Purpose of the Repository
+The GitHub repository serves as a centralized p
