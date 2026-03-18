@@ -1,17 +1,32 @@
 # Student Grade Calculator Code : GradeKeeper
 
+import time #allows waiting time
 import random  # Allows use of random motivational messages
 
 # Gets the user's name
-name = input("Enter your name: ")
+print("What is your name?")
+name = input("Enter here: ")
 
+print("")
 print(f"Hello, {name}! Let's calculate your final grade together.")
+print("")
+
+time.sleep(3)
 
 # Gives a condition (choose grading type)
-condition = int(input("Enter 1 to calculate your numerical grade, or enter 2 to calculate your GWA: "))
+print("Choose your grading system.")
+print("Type 1 to calculate your numerical grade.")
+print("Type 2 to calculate your GWA.")
+condition = input("Enter here: ")
 
 # Gets the amount of subjects
-subjects = int(input("How many subjects do you have? Enter here: "))
+print("How many subjects do you have?")
+subjects = input("Enter here: ")
+while subjects.isdecimal() ==  False or subjects == 0:
+    print("Invalid input!")
+    print("The amount of subjects should be an integer equal to at least one.")
+    subjects = input("Enter here: ")
+subjects = int(subjects)
 
 # Prepares necessary lists to store subject data
 subject_list = list()   # Stores subject names
@@ -31,12 +46,45 @@ def calculate_GWA():
     total_units = 0
     for i in range(subjects):  # Loop through each subject
         subject_name = input(f"Enter name of subject {i+1}: ")
-        units = float(input(f"Enter amount of units for {subject_name}: "))
-        gwa = float(input(f"Enter GWA for {subject_name}: "))
+        units = input(f"Enter amount of units for {subject_name}: ")
+        gwa = input(f"Enter GWA for {subject_name}: ")
         
+        unitsisfloat = False
+        gwaisfloat = False
+        
+        while unitsisfloat == False:
+            try:
+                float(units)
+            except ValueError:
+                print("Invalid unit input! Not a number.")
+                units = input("Enter again: ")
+            else:
+                units = float(units)
+                unitsisfloat = True
+                
+        while gwaisfloat == False:
+            try:
+                float(gwa)
+            except ValueError:
+                print("Invalid grade input! Not a number.")
+                gwa = input("Enter again: ")
+            else:
+                gwa = float(gwa)
+                gwaisfloat = True
+            
         # Validation for GWA range
         while gwa < 1.00 or gwa > 5.00:
-            gwa = float(input(f"Invalid! Enter GWA for {subject_name} (1.00-5.00): "))
+            gwa = input(f"Invalid grade input! Enter GWA for {subject_name} (1.00-5.00): ")
+            gwaisfloat = False
+            while gwaisfloat == False:
+                try:
+                    float(gwa)
+                except ValueError:
+                    print("Invalid input! Not a number.")
+                    gwa = input("Enter again: ")
+                else:
+                    gwa = float(gwa)
+                    gwaisfloat = True
         
         # Store values
         subject_list.append(subject_name)
@@ -58,11 +106,33 @@ def calculate_numerical_grade():
     total = 0
     for i in range(subjects):  # Loop through each subject
         subject_name = input(f"Enter name of subject {i+1}: ")
-        grade = float(input(f"Enter grade for {subject_name}: "))
+        grade = input(f"Enter grade for {subject_name}: ")
         
-        # Validation for numerical grade
+        gradeisfloat = False
+        
+        while gradeisfloat == False:
+            try:
+                float(grade)
+            except ValueError:
+                print("Invalid input! Not a number.")
+                grade = input("Enter again: ")
+            else:
+                grade = float(grade)
+                gradeisfloat = True
+            
+        # Validation for GWA range
         while grade < 0 or grade > 100:
-            grade = float(input(f"Invalid! Enter grade for {subject_name} (0-100): "))
+            grade = input(f"Invalid input! Enter grade for {subject_name} (0-100): ")
+            gradeisfloat = False
+            while gradeisfloat == False:
+                try:
+                    float(grade)
+                except ValueError:
+                    print("Invalid input! Not a number.")
+                    grade = input("Enter again: ")
+                else:
+                    grade = float(grade)
+                    gradeisfloat = True
         
         # Store values
         subject_list.append(subject_name)
@@ -94,14 +164,21 @@ def create_table():
 # MAIN PROGRAM LOGIC
 # -----------------------------------------
 
-if condition == 1:
+
+
+if condition == "1":
     
     # Calculate numerical grade
     finalgrade = calculate_numerical_grade()
     
+    print("Calculating...")
+    time.sleep(3)
+    
     create_table()
     
-    print(f"\n{name}, your final average grade is : {finalgrade:.0f}")
+    time.sleep(2)
+    
+    print(f"\n{name}, your final average grade is : {round(finalgrade)}")
     
     # Honors classification
     if 97.5 <= finalgrade <= 100:
@@ -124,18 +201,26 @@ if condition == 1:
         print("Remark: Did Not Meet Expectations")
     
     # Identify best and worst subjects
-    highest_index = grades.index(max(grades))
-    lowest_index = grades.index(min(grades))
-    
-    print(f"Your best subject is {subject_list[highest_index]} with a grade of {grades[highest_index]}! Amazing!")
-    print(f"However, your worst subject is {subject_list[lowest_index]} with a grade of {grades[lowest_index]}. Try studying for this subject more.")
+    if len(grades) == 0:
+        print("Empty list: Cannot determine highest or lowest grade.")
+    else:
+        highest_index = grades.index(max(grades))
+        lowest_index = grades.index(min(grades))
+        
+        print(f"Best Subject: {subject_list[highest_index]}, Grade: {grades[highest_index]}")
+        print(f"Worst Subject: {subject_list[lowest_index]}, Grade: {grades[lowest_index]}")
 
-elif condition == 2:
+elif condition == "2":
     
     # Calculate GWA
     finalgrade = calculate_GWA()
     
+    print("Calculating...")
+    time.sleep(3)
+    
     create_table()
+    
+    time.sleep(2)
     
     print(f"\n{name}, your final average grade is : {finalgrade:.2f}")
     
@@ -158,17 +243,19 @@ elif condition == 2:
         print("Remark: Failed")
         
     # For GWA, lower value is better
-    highest_index = grades.index(min(grades))
-    lowest_index = grades.index(max(grades))
-    
-    print(f"Your best subject is {subject_list[highest_index]} with a grade of {grades[highest_index]:.2f}! Amazing!")
-    print(f"However, your worst subject is {subject_list[lowest_index]} with a grade of {grades[lowest_index]:.2f}. Try studying for this subject more.")
+    if len(grades) == 0:
+        print("Empty list: Cannot determine highest or lowest grade.")
+    else:
+        highest_index = grades.index(min(grades))
+        lowest_index = grades.index(max(grades))
+        
+        print(f"Best Subject: {subject_list[highest_index]}, Grade: {grades[highest_index]:.2f}")
+        print(f"Worst Subject: {subject_list[lowest_index]}, Grade: {grades[lowest_index]:.2f}")
     
 else:
     # Handles invalid condition input
-    while (condition != 1) or (condition != 2):
-        condition = int(input("Invalid condition input. Enter 1 to calculate your numerical grade, or enter 2 to calculate your GWA: "))
-
+    while (condition != "1") or (condition != "2"):
+        condition = input("Invalid condition input. Enter 1 to calculate your numerical grade, or enter 2 to calculate your GWA: ")
 
 # -----------------------------------------
 # Random Motivational Message
@@ -182,6 +269,7 @@ messages = [
 
 print(random.choice(messages))
 
+time.sleep(5)
 
 # -----------------------------------------
 # CRUD FUNCTIONS (Create, Read, Update, Delete)
@@ -211,7 +299,7 @@ def add_value(new_subject, new_grade, new_units=1):
 def get_value(subject_input):
     subject_found = False
     for i in range(subjects):
-        if subject_list[i] == subject_input:
+        if subject_list[i].lower() == subject_input.lower():
             return subject_input, grades[i], units_list[i]
             subject_found = True
     if subject_found == False:
@@ -225,7 +313,7 @@ def update_value(subject_input, new_subject, new_grade, new_units=1):
     subject_found = False
     
     for i in range(subjects):
-        if subject_list[i] == subject_input:
+        if subject_list[i].lower() == subject_input.lower():
             subject_list[i] = new_subject
             grades[i] = new_grade
             units_list[i] = new_units
@@ -239,7 +327,7 @@ def update_value(subject_input, new_subject, new_grade, new_units=1):
             subject_found = True
             
     if subject_found == False:
-        return "SUBJECT NOT FOUND"
+        print("Error: Subject not found.")
 
 
 def delete_value(subject_input):
@@ -250,7 +338,7 @@ def delete_value(subject_input):
     subject_found = False
     
     for i in range(subjects):
-        if subject_list[i] == subject_input:
+        if subject_list[i].lower() == subject_input.lower():
             subjects -= 1
             subject_list.remove(subject_list[i])
             grades.remove(grades[i])
@@ -269,45 +357,185 @@ def delete_value(subject_input):
     if subject_found == False:
         return "SUBJECT NOT FOUND"
 
-
 # -----------------------------------------
 # CRUD LOOP
 # -----------------------------------------
 
 while program_ongoing == True:
-    crud_condition = int(input("Enter 1 to add a subject, enter 2 to get the grade of a specific subject, enter 3 to update a subject, enter 4 to delete a subject, enter 5 to create a table showing all the subjects, or enter 6 to end the program."))
+    time.sleep(1)
+    print("")
+    print("Select the following actions: ")
+    print("Enter 1 to add a subject.")
+    print("Enter 2 to get the grade of a specific subject.")
+    print("Enter 3 to update a subject and its values.")
+    print("Enter 4 to delete a subject.")
+    print("Enter 5 to show the table of grades.")
+    print("Enter 6 to end the program.")
+    crud_condition = input("Enter here: ")
     
-    if crud_condition == 1:
+    if crud_condition == "1":
         new_subject = input("Enter new subject: ")
         new_grade = input("Enter grade of new subject: ")
-        if condition == 2:
-            new_units = input("Enter units of new subject: ")
-        else:
+        if condition == "1":
+            
+            gradeisfloat = False
+            
+            while gradeisfloat == False:
+                try:
+                    float(new_grade)
+                except ValueError:
+                    print("Invalid input! Not a number.")
+                    new_grade = input("Enter again: ")
+                else:
+                    new_grade = float(new_grade)
+                    gradeisfloat = True
+            
+            # Validation for GWA range
+            while new_grade < 0 or new_grade > 100:
+                grade = input(f"Invalid input! Enter grade for {subject_name} (0-100): ")
+                gradeisfloat = False
+                while gradeisfloat == False:
+                    try:
+                        float(grade)
+                    except ValueError:
+                        print("Invalid input! Not a number.")
+                        grade = input("Enter again: ")
+                    else:
+                        grade = float(grade)
+                        gradeisfloat = True
+            
             new_units = 1
+            
+        else:
+            
+            new_units = input("Enter units of new subject: ")
+            
+            unitsisfloat = False
+            gwaisfloat = False
+            
+            while unitsisfloat == False:
+                try:
+                    float(new_units)
+                except ValueError:
+                    print("Invalid unit input! Not a number.")
+                    new_units = input("Enter again: ")
+                else:
+                    new_units = float(new_units)
+                
+            while gwaisfloat == False:
+                try:
+                    float(new_grade)
+                except ValueError:
+                    print("Invalid gwa input! Not a number.")
+                    new_grade = input("Enter again: ")
+                else:
+                    new_grade = float(new_grade)
+                    gwaisfloat = True
+                
+            # Validation for GWA range
+            while new_grade < 1.00 or new_grade > 5.00:
+                new_grade = input(f"Invalid gwa input! Enter GWA for {subject_name} (1.00-5.00): ")
+                gwaisfloat = False
+                while gwaisfloat == False:
+                    try:
+                        float(new_grade)
+                    except ValueError:
+                        print("Invalid input! Not a number.")
+                        new_grade = input("Enter again: ")
+                    else:
+                        new_grade = float(new_grade)
+                        gwaisfloat = True
         add_value(new_subject, new_grade, new_units)
-        
-    if crud_condition == 2:
+            
+    if crud_condition == "2":
         subject_input = input("Enter the name of the subject you want to check: ")
         print(get_value(subject_input))
         
-    if crud_condition == 3:
+    if crud_condition == "3":
         subject_input = input("Enter the name of the subject you want to update: ")
         new_subject = input("Update subject name: ")
         new_grade = input("Update subject grade: ")
-        if condition == 2:
-            new_units = input("Update subject units: ")
-        else:
+        if condition == "1":
+            
+            gradeisfloat = False
+            
+            while gradeisfloat == False:
+                try:
+                    float(new_grade)
+                except ValueError:
+                    print("Invalid input! Not a number.")
+                    new_grade = input("Enter again: ")
+                else:
+                    new_grade = float(new_grade)
+                    gradeisfloat = True
+            
+            # Validation for GWA range
+            while new_grade < 0 or new_grade > 100:
+                grade = input(f"Invalid input! Enter grade for {subject_name} (0-100): ")
+                gradeisfloat = False
+                while gradeisfloat == False:
+                    try:
+                        float(grade)
+                    except ValueError:
+                        print("Invalid input! Not a number.")
+                        grade = input("Enter again: ")
+                    else:
+                        grade = float(grade)
+                        gradeisfloat = True
+            
             new_units = 1
+            
+        else:
+            
+            new_units = input("Enter units of new subject: ")
+            
+            unitsisfloat = False
+            gwaisfloat = False
+            
+            while unitsisfloat == False:
+                try:
+                    float(new_units)
+                except ValueError:
+                    print("Invalid unit input! Not a number.")
+                    new_units = input("Enter again: ")
+                else:
+                    new_units = float(new_units)
+                
+            while gwaisfloat == False:
+                try:
+                    float(new_grade)
+                except ValueError:
+                    print("Invalid gwa input! Not a number.")
+                    new_grade = input("Enter again: ")
+                else:
+                    new_grade = float(new_grade)
+                    gwaisfloat = True
+                
+            # Validation for GWA range
+            while new_grade < 1.00 or new_grade > 5.00:
+                new_grade = input(f"Invalid gwa input! Enter GWA for {subject_name} (1.00-5.00): ")
+                gwaisfloat = False
+                while gwaisfloat == False:
+                    try:
+                        float(new_grade)
+                    except ValueError:
+                        print("Invalid input! Not a number.")
+                        new_grade = input("Enter again: ")
+                    else:
+                        new_grade = float(new_grade)
+                        gwaisfloat = True
         update_value(subject_input, new_subject, new_grade, new_units=1)
         
-    if crud_condition == 4:
-        subject_input = ("Enter the name of the subject you want to delete: ")
+    if crud_condition == "4":
+        subject_input = input("Enter the name of the subject you want to delete: ")
         delete_value(subject_input)
         
-    if crud_condition == 5:
+    if crud_condition == "5":
         create_table()
         
-    if crud_condition == 6:
+    if crud_condition == "6":
+        print("Ending program...")
+        time.sleep(2)
         program_ongoing = False
 
 print("Thank you for using Gradekeeper!")
