@@ -2,6 +2,20 @@
 
 This file lists all of the updates made to our project : Gradekeeper.
 
+## Version 1.6 - Created March 12, 2026, Updated March 18, 2026
+- Small update in preparation for a major update
+- Improved UI
+    - Made it clear, concise, and organized
+    - User decisions stand out
+- Bug fixing:
+    - When calculating grades or giving a crud condition, the program loops when given an input it cannot work with.
+    - When calculating the numerical grade, the program rounds instead of truncating.
+    - Searching for subjects ignores letter cases.
+    - Program checks for empty lists to avoid crashing when deleting all subjects.
+    - Crud Condition 4 is fixed.
+    - Inputs work properly in the Crud Conditions.
+
+
 ## Version 1.5.0 - February 16, 2025 (Barquin)
 - Main new feature: Added CRUD functions to the grades after inputting them.
 
