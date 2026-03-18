@@ -2,6 +2,10 @@
 
 This file lists all of the updates made to our project : Gradekeeper.
 
+## Version 1.7 - Created March 18, 2026, Updated March 18, 2026
+- Added Grade Equivalent Converter 
+    - converts numerical grade to GWA
+
 ## Version 1.6 - Created March 12, 2026, Updated March 18, 2026
 - Small update in preparation for a major update
 - Improved UI
