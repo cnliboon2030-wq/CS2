@@ -385,18 +385,59 @@ def delete_value(subject_input):
 # CRUD LOOP
 # -----------------------------------------
 
-while program_ongoing == True:
-    time.sleep(1)
-    print("")
-    print("Select the following actions: ")
-    print("Enter 1 to add a subject.")
-    print("Enter 2 to get the grade of a specific subject.")
-    print("Enter 3 to update a subject and its values.")
-    print("Enter 4 to delete a subject.")
-    print("Enter 5 to show the table of grades.")
-    print("Enter 6 to end the program.")
-    crud_condition = input("Enter here: ")
-    
+while True:
+print("\nCRUD OPTIONS")
+print("1 - Create Student")
+print("2 - Delete Student")
+print("3 - Add Subject")
+print("4 - Read Grade")
+print("5 - Update Grade")
+print("6 - Delete Subject")
+print("7 - Show Average")
+print("8 - Exit")
+
+choice = input("Enter: ")
+
+if choice == "1":
+name = input("Student name: ")
+create_student(name)
+
+elif choice == "2":
+name = input("Student name: ")
+delete_student(name)
+
+elif choice == "3":
+name = input("Student name: ")
+subject = input("Subject: ")
+grade = float(input("Grade: "))
+units = float(input("Units: "))
+add_subject(name, subject, grade, units)
+
+elif choice == "4":
+name = input("Student name: ")
+subject = input("Subject: ")
+read_grade(name, subject)
+
+elif choice == "5":
+name = input("Student name: ")
+subject = input("Subject: ")
+grade = float(input("New Grade: "))
+update_grade(name, subject, grade)
+
+elif choice == "6":
+name = input("Student name: ")
+subject = input("Subject: ")
+delete_subject(name, subject)
+
+elif choice == "7":
+name = input("Student name: ")
+compute_average(name)
+
+elif choice == "8":
+print("Goodbye!")
+break
+
+
     if crud_condition == "1":
         new_subject = input("Enter new subject: ")
         new_grade = input("Enter grade of new subject: ")
