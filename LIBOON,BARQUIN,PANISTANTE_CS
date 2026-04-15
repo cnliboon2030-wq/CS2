@@ -1,13 +1,18 @@
 # Student Grade Calculator Code : GradeKeeper
-import time
+
 import random  # Allows use of random motivational messages
+import time
+
+print("Welcome to Gradekeeper!")
+
+time.sleep(2)
 
 print("Who is using this program?")
 print("Enter 1 if you're a student.")
 print("Enter 2 if you're a teacher.")
 while True:
     student_teacher_condition = input("Enter here: ")
-    if student_teacher_condition != "1" or student_teacher_condition != "2":
+    if student_teacher_condition == "1" or student_teacher_condition == "2":
         break
     else:
         print("Invalid input!")
@@ -27,8 +32,9 @@ print("Choose your grading system.")
 print("Enter 1 to calculate your numerical grade.")
 print("Enter 2 to calculate your GWA.")
 while True:
+
     grade_condition = input("Enter here: ")
-    if grade_condition != "1" or grade_condition != "2":
+    if grade_condition == "1" or grade_condition == "2":
         break
     else:
         print("Invalid input!")
@@ -70,7 +76,15 @@ classfiles = list() #formerly 'grades' (+ student info)
 
 def input_subjects():
     for i in range(no_of_subjects):  # Loop through each subject
-        subject_id = input(f"Enter subject ID of subject {i+1}: ")
+        while True:
+            subjectidisunique = True
+            subject_id = input(f"Enter subject ID of subject {i+1}: ")
+            for subject in subject_list:
+                if subject[0] == subject_id:
+                    print("Subject ID must be unique.")
+                    subjectidisunique = False
+            if subjectidisunique:
+                break
             
         subject_name = input(f"Enter name of subject {i+1}: ")
         # Store values
@@ -81,13 +95,23 @@ def input_subjects():
                 units = input(f"Enter units of {subject_name}: ")
                 try:
                     units = float(units)
+                    break
                 except ValueError:
                     print("Invalid unit input! Not a number.")
+
         subject_list.append([subject_id, subject_name, units])
 
 def input_students():
     for i in range(no_of_students):  # Loop through each subject
-        student_id = input(f"Enter student ID for student {i+1}: ")
+        while True:
+            studentidisunique = True
+            student_id = input(f"Enter student ID of student {i+1}: ")
+            for student in student_list:
+                if student[0] == student_id:
+                    print("Student ID must be unique.")
+                    studentidisunique = False
+            if studentidisunique:
+                break
         student_name = input(f"Enter name of student {student_id}: ")
         student_list.append([student_id, student_name])
 
@@ -108,11 +132,11 @@ def input_grade():
                         if grade_condition == "2":
                             if grade == 4 or grade == 5:
                                 break
-                            for g in range (1, 3.1, 0.25):
-                                if grade == g:
+                            for g in range (4, 13, 1):
+                                if grade == 4*g:
                                     break
                             else:
-                                print("Grade must be between 1.00 - 5.00.")
+                                print("Grade must be between 1.00 - 5.00 and follow standard gwa format.")
                     except ValueError:
                         print("Invalid grade input! Not a number.")
                     # Store values
@@ -399,11 +423,11 @@ def create_table():
     print("")
 
 
-#CURRENTLY BROKEN DUE TO NEW VARIABLES!!!
+
 # -----------------------------------------
-# MAIN PROGRAM LOGIC !!!CURRENTLY BROKEN DUE TO NEW VARIABLES!!!
+# MAIN PROGRAM LOGIC 
 # -----------------------------------------
-#CURRENTLY BROKEN DUE TO NEW VARIABLES!!!
+
 
 def main_gradekeeper():
     inputinfo()
@@ -422,9 +446,8 @@ print("")
 
 
 # -----------------------------------------
-# PROGRAM FUNCTIONS (Create, Read, Update, Delete) 
+# PROGRAM FUNCTIONS (Create, Read, Update, Delete, and more) 
 # -----------------------------------------
-#READ AND UPDATE STILL NEED FIXING
 
 # ADD SUBJECT
 
@@ -705,6 +728,7 @@ def updatesubject(subject_id, new_name=None, new_units=None, update_grades=False
     subjectnotfound = True
     for subject in subject_list:
         if subject_id == subject[0]:
+            subject_index = subject_list.index(subject)
             subjectnotfound = False
             if new_name:
                 subject_list[subject_index][1] = new_name
@@ -724,7 +748,7 @@ def updatesubject(subject_id, new_name=None, new_units=None, update_grades=False
                         qtrstudentfiles = []
                         while True:
                             try:
-                                grade = float(input(f"Enter new grade of {student[1]} for {subject_list[i][0]} in quarter {q}: "))
+                                grade = float(input(f"Enter new grade of {student[1]} for {subject_list[i][0]} in quarter {i}: "))
                                 if grade_condition == "1":
                                     if 0 <= grade <= 100:
                                         break
@@ -741,7 +765,7 @@ def updatesubject(subject_id, new_name=None, new_units=None, update_grades=False
                             except ValueError:
                                 print("Invalid grade input! Not a number.")
                             # Store values
-                            student[1][q].append(grade)
+                            student[1][i].append(grade)
                 calculate_averages()
             print("Subject updated.")
     if subjectnotfound == True:
@@ -789,8 +813,8 @@ def updatestudent(student_id, new_name=None, update_grades=False): #done
     studentclassfiles = next((cf for cf in classfiles if cf[0] == student_id), None)
     if student_info:
         if new_name:
-            student[1] = new_name
-        if updategrades:
+            student_info[1] = new_name
+        if update_grades:
             studentclassfiles.pop(1)
             studentfiles = []
             for q in range(4):
@@ -799,7 +823,7 @@ def updatestudent(student_id, new_name=None, update_grades=False): #done
                 for i in range(no_of_subjects):
                     while True:
                         try:
-                            grade = float(input(f"Enter grade of {student[1]} for {subject_list[i][1]} in quarter {q}: "))
+                            grade = float(input(f"Enter grade of {student_info[1]} for {subject_list[i][1]} in quarter {q}: "))
                             if grade_condition == "1":
                                 if 0 <= grade <= 100:
                                     break
@@ -954,11 +978,11 @@ def grade_conversion():
     calculate_averages()
     print("Successfully converted.")
 
-#CURRENTLY BROKEN DUE TO NEW VARIABLES!!!
+
 # -----------------------------------------
-# program LOOP !!!CURRENTLY BROKEN DUE TO NEW VARIABLES!!!
+# PROGRAM LOOP 
 # -----------------------------------------
-#CURRENTLY BROKEN DUE TO NEW VARIABLES!!!
+
 
 while True:
     print("")
@@ -984,7 +1008,15 @@ while True:
             else:
                 subject_student_condition = "1"
             if subject_student_condition == "1":
-                subject_toadd = input("Enter the ID of the new subject: ")
+                while True:
+                    subjectidisunique = True
+                    subject_toadd = input("Enter subject ID of the new subject: ")
+                    for subject in subject_list:
+                        if subject[0] == subject_toadd:
+                            print("Subject ID must be unique.")
+                            subjectidisunique = False
+                    if subjectidisunique:
+                        break
                 new_subject_name = input("Enter the name of the new subject: ")
                 if grade_condition == "1":
                     new_subject_units = 1
@@ -998,7 +1030,15 @@ while True:
                 addsubject(subject_toadd, new_subject_name, new_subject_units)
                 break
             if subject_student_condition == "2":
-                student_toadd = input("Enter ID of new student:")
+                while True:
+                    studentidisunique = True
+                    student_toadd = input(f"Enter student ID of new student: ")
+                    for student in student_list:
+                        if student[0] == student_toadd:
+                            print("Student ID must be unique.")
+                            studentidisunique = False
+                    if studentidisunique:
+                        break
                 new_student_name = input("Enter name of new student:")
                 addstudent(student_toadd, new_student_name)
                 break
@@ -1074,6 +1114,7 @@ while True:
                             while True:
                                 try:
                                     new_subject_units = int(input("Enter new units of subject: "))
+                                    break
                                 except ValueError:
                                     input("Invalid input: not an integer.")
                             updatesubject(subject_toupdate, new_units=new_subject_units)
@@ -1088,7 +1129,7 @@ while True:
                         updatesubject(subject_toupdate, new_name=new_subject_name)
                         break
                     print("Invalid input. Input again.")
-            break
+                break
             if subject_student_condition == "2":
                 if student_teacher_condition == "1":
                     quarter_toupdate = input("Enter the quarter you want to update the grades of:")
@@ -1143,7 +1184,7 @@ while True:
             print("Invalid input. Input again.")
     
     elif program_condition == "5":
-        input_info()
+        inputinfo()
         
     elif program_condition == "6":
         create_table()
