@@ -1,5 +1,5 @@
 # Student Grade Calculator Code : GradeKeeper
-
+import time
 import random  # Allows use of random motivational messages
 
 print("Who is using this program?")
@@ -1168,3 +1168,4 @@ while True:
         print("")
 
 print("Thank you for using Gradekeeper!")
+time.sleep(5)
