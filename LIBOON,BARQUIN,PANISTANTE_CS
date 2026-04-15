@@ -1,7 +1,16 @@
 # Student Grade Calculator Code : GradeKeeper
 
-import time #allows waiting time
 import random  # Allows use of random motivational messages
+
+print("Who is using this program?")
+print("Enter 1 if you're a student.")
+print("Enter 2 if you're a teacher.")
+while True:
+    student_teacher_condition = input("Enter here: ")
+    if student_teacher_condition != "1" or student_teacher_condition != "2":
+        break
+    else:
+        print("Invalid input!")
 
 # Gets the user's name
 print("What is your name?")
@@ -11,596 +20,1151 @@ print("")
 print(f"Hello, {name}! Let's calculate your final grade together.")
 print("")
 
-time.sleep(3)
+
 
 # Gives a condition (choose grading type)
 print("Choose your grading system.")
-print("Type 1 to calculate your numerical grade.")
-print("Type 2 to calculate your GWA.")
-condition = input("Enter here: ")
+print("Enter 1 to calculate your numerical grade.")
+print("Enter 2 to calculate your GWA.")
+while True:
+    grade_condition = input("Enter here: ")
+    if grade_condition != "1" or grade_condition != "2":
+        break
+    else:
+        print("Invalid input!")
 
 # Gets the amount of subjects
 print("How many subjects do you have?")
-subjects = input("Enter here: ")
-while subjects.isdecimal() ==  False or subjects == 0:
-    print("Invalid input!")
-    print("The amount of subjects should be an integer equal to at least one.")
-    subjects = input("Enter here: ")
-subjects = int(subjects)
+while True:
+    try:
+        no_of_subjects = int(input("Enter here: "))
+        if no_of_subjects > 0:
+            break
+        else:
+            print("Invalid input! Too small.")
+    except ValueError:
+        print("Invalid input! Not a number.")
+
+
+if student_teacher_condition == '1':
+    no_of_students = 1
+elif student_teacher_condition == '2':
+    while True:
+        try:
+            no_of_students = int(input("Enter here: "))
+            if no_of_students > 0:
+                break
+            else:
+                print("Invalid input! Too small.")
+        except ValueError:
+            print("Invalid input! Not a number.")
 
 # Prepares necessary lists to store subject data
-subject_list = list()   # Stores subject names
-grades = list()         # Stores grades
-units_list = list()     # Stores units per subject (used for GWA)
-
-# Initializes final grade
-finalgrade = 0
-
-program_ongoing = True  # Controls CRUD loop
+subject_list = list() #combined 'subject_list' and 'units_list'
+student_list = list() #new var
+classfiles = list() #formerly 'grades' (+ student info)
 
 # -----------------------------------------
-# FUNCTION: Calculate GWA (Weighted Average)
+# FUNCTION: Calculate GRADES
 # -----------------------------------------
-def calculate_GWA():
-    total_gwa = 0
-    total_units = 0
-    for i in range(subjects):  # Loop through each subject
+
+def input_subjects():
+    for i in range(no_of_subjects):  # Loop through each subject
+        subject_id = input(f"Enter subject ID of subject {i+1}: ")
+            
         subject_name = input(f"Enter name of subject {i+1}: ")
-        units = input(f"Enter amount of units for {subject_name}: ")
-        gwa = input(f"Enter GWA for {subject_name}: ")
-        
-        unitsisfloat = False
-        gwaisfloat = False
-        
-        while unitsisfloat == False:
-            try:
-                float(units)
-            except ValueError:
-                print("Invalid unit input! Not a number.")
-                units = input("Enter again: ")
+        # Store values
+        if grade_condition == '1':
+            units = 1 # Default unit = 1 for numerical grading
+        else:
+            while True:
+                units = input(f"Enter units of {subject_name}: ")
+                try:
+                    units = float(units)
+                except ValueError:
+                    print("Invalid unit input! Not a number.")
+        subject_list.append([subject_id, subject_name, units])
+
+def input_students():
+    for i in range(no_of_students):  # Loop through each subject
+        student_id = input(f"Enter student ID for student {i+1}: ")
+        student_name = input(f"Enter name of student {student_id}: ")
+        student_list.append([student_id, student_name])
+
+def input_grade():
+    for student in student_list:
+        studentfiles = []
+        for q in range(1, 5):
+            qtrstudentfiles = []
+            for i in range(no_of_subjects):
+                while True:
+                    try:
+                        grade = float(input(f"Enter grade of {student[1]} for {subject_list[i][1]} in quarter {q}: "))
+                        if grade_condition == "1":
+                            if 0 <= grade <= 100:
+                                break
+                            else:
+                                print("Grade must be between 0-100.")
+                        if grade_condition == "2":
+                            if grade == 4 or grade == 5:
+                                break
+                            for g in range (1, 3.1, 0.25):
+                                if grade == g:
+                                    break
+                            else:
+                                print("Grade must be between 1.00 - 5.00.")
+                    except ValueError:
+                        print("Invalid grade input! Not a number.")
+                    # Store values
+                qtrstudentfiles.append(grade)
+            studentfiles.append(qtrstudentfiles)
+        classfiles.append([student[0], studentfiles])
+
+def calculate_averages():
+    for student in classfiles:
+        for x in range(4):
+            totalqtrgrade = 0
+            for i in range(no_of_subjects):
+                totalqtrgrade += student[1][x][i]
+            qtravg = totalqtrgrade / no_of_subjects
+            student[1][x].append(qtravg)
+        averages = []
+        for i in range(no_of_subjects):
+            totalgrade = 0
+            totalunits = 0
+            for x in range(4):
+                totalgrade += student[1][x][i]
+                totalunits += subject_list[i][2]
+            average = totalgrade / totalunits
+            averages.append(average)
+        student[1].append(averages)
+
+def inputinfo():
+    input_subjects()
+    if student_teacher_condition == '1':
+        student_list.append(["000", name])
+    if student_teacher_condition == '2':
+        input_students()
+    input_grade()
+    calculate_averages()
+
+def displayinfo():
+    global student_teacher_condition, grade_condition, classfiles
+    print("")
+    if student_teacher_condition == "1":
+            
+        avg_list = classfiles[0][1][-1]
+            
+        if grade_condition == "1":
+            print(f"\n{name}, your final average grade is : {round(avg_list[-1])}")
+            
+            print("")
+            # Honors classification
+            if 97.5 <= avg_list[-1] <= 100:
+                print("You achieved Highest Honors! Congratulations!")
+            elif 94.5 <= avg_list[-1] < 97.5:
+                print("You achieved High Honors! Congratulations!")
+            elif 89.5 <= avg_list[-1] < 94.5:
+                print("You achieved Honors! Congratulations!")
+         
+            # General remarks
+            if avg_list[-1] >= 90:
+                print("Remark: Outstanding!")
+            elif avg_list[-1] >= 85:
+                print("Remark: Very Satisfactory")
+            elif avg_list[-1] >= 80:
+                print("Remark: Satisfactory")
+            elif avg_list[-1] >= 75:
+                print("Remark: Fairly Satisfactory")
             else:
-                units = float(units)
-                unitsisfloat = True
+                print("Remark: Did Not Meet Expectations")
+            # Identify best and worst subjects
+                best_sub_index = avg_list[:-1].index(max(avg_list[:-1]))
+                worst_sub_index = avg_list[:-1].index(min(avg_list[:-1]))
                 
-        while gwaisfloat == False:
-            try:
-                float(gwa)
-            except ValueError:
-                print("Invalid grade input! Not a number.")
-                gwa = input("Enter again: ")
-            else:
-                gwa = float(gwa)
-                gwaisfloat = True
+                avgs_per_qtr = []
+                for i in range(4):
+                    avgs_per_qtr.append(classfiles[0][1][i][-1])
+                
+                best_qtr_index = avgs_per_qtr.index(max(avgs_per_qtr))
+                worst_qtr_index = avgs_per_qtr.index(min(avgs_per_qtr))
             
-        # Validation for GWA range
-        while gwa < 1.00 or gwa > 5.00:
-            gwa = input(f"Invalid grade input! Enter GWA for {subject_name} (1.00-5.00): ")
-            gwaisfloat = False
-            while gwaisfloat == False:
-                try:
-                    float(gwa)
-                except ValueError:
-                    print("Invalid input! Not a number.")
-                    gwa = input("Enter again: ")
-                else:
-                    gwa = float(gwa)
-                    gwaisfloat = True
-        
-        # Store values
-        subject_list.append(subject_name)
-        grades.append(gwa)
-        units_list.append(units)
-        
-        # Compute weighted total
-        total_gwa += (gwa * units)
-        total_units += units
-    
-    average = total_gwa / total_units  # Compute weighted average
-    return average
-
-
-# -----------------------------------------
-# FUNCTION: Calculate Numerical Average
-# -----------------------------------------
-def calculate_numerical_grade():
-    total = 0
-    for i in range(subjects):  # Loop through each subject
-        subject_name = input(f"Enter name of subject {i+1}: ")
-        grade = input(f"Enter grade for {subject_name}: ")
-        
-        gradeisfloat = False
-        
-        while gradeisfloat == False:
-            try:
-                float(grade)
-            except ValueError:
-                print("Invalid input! Not a number.")
-                grade = input("Enter again: ")
-            else:
-                grade = float(grade)
-                gradeisfloat = True
+        elif grade_condition == "2":
             
-        # Validation for GWA range
-        while grade < 0 or grade > 100:
-            grade = input(f"Invalid input! Enter grade for {subject_name} (0-100): ")
-            gradeisfloat = False
-            while gradeisfloat == False:
-                try:
-                    float(grade)
-                except ValueError:
-                    print("Invalid input! Not a number.")
-                    grade = input("Enter again: ")
-                else:
-                    grade = float(grade)
-                    gradeisfloat = True
-
+            print(f"\n{name}, your final average grade is : {avg_list[-1]:.2f}")
+            
+            print("")
+            # Director's List qualification
+            if avg_list[-1] <= 1.50:
+                print("You're in the Director's List! Congratulations!")
+                
+            # GWA remarks
+            if 1.25 > avg_list[-1] >= 1.00:
+                print("Remark: Excellent!")
+            elif 1.50 >= avg_list[-1] >= 1.25:
+                print("Remark: Very Good")
+            elif 2.00 > avg_list[-1] > 1.50:
+                print("Remark: Good")
+            elif 2.50 >= avg_list[-1] >= 2.00:
+                print("Remark: Satisfactory")
+            elif 3.00 >= avg_list[-1] > 2.50:
+                print("Remark: Fair")
+            elif 5.00 >= avg_list[-1] > 3.00:
+                print("Remark: Failed")
+                
+            # For GWA, lower value is better
+                best_sub_index = avg_list[:-1].index(min(avg_list[:-1]))
+                worst_sub_index = avg_list[:-1].index(max(avg_list[:-1]))
+                
+                avgs_per_qtr = []
+                for i in range(4):
+                    avgs_per_qtr.append(classfiles[0][1][i][-1])
+                
+                best_qtr_index = avgs_per_qtr.index(min(avgs_per_qtr))
+                worst_qtr_index = avgs_per_qtr.index(max(avgs_per_qtr))
+                
+        print(f"Best Subject: {subject_list[best_sub_index][1]}, Grade: {avgs_per_qtr[best_sub_index]}")
+        print(f"Worst Subject: {subject_list[worst_sub_index][1]}, Grade: {avgs_per_qtr[worst_sub_index]}")
         
-        # Store values
-        subject_list.append(subject_name)
-        grades.append(grade)
-        units_list.append(1)  # Default unit = 1 for numerical grading
+        print(f"Best Quarter: {subject_list[best_qtr_index]}, Average: {avg_list[best_qtr_index]}")
+        print(f"Worst Quarter: {subject_list[worst_qtr_index]}, Average: {avg_list[worst_qtr_index]}")
         
-        total += grade
+        messages = [ 
+        "Keep pushing!",
+        "You're doing great!",
+        "Proud of you!",
+        "Next time will be even better!"
+        ]
+        
+        print(random.choice(messages))
+    if student_teacher_condition == "2":
+        if grade_condition == "1":
+            print("Honor's List:")
+            for i in range(no_of_students):
+                if classfiles[i][1][-1][-1] >= 98:
+                   print(f"{student_list[i][1]} (Highest Honors)")
+                elif classfiles[i][1][-1][-1] >= 95:
+                   print(f"{student_list[i][1]} (High Honors)")
+                elif classfiles[i][1][-1][-1] >= 90:
+                   print(f"{student_list[i][1]} (Honors)")
+            studentavgs = []
+            for student in classfiles:
+                studentavgs.append(student[1][-1][-1])
+            best_student_index = studentavgs.index(max(studentavgs))
+        if grade_condition == "2":
+            print("Director's List:")
+            for i in range(no_of_students):
+                if classfiles[i][1][-1][-1] < 1.50:
+                    print({student_list[0][1]})
+            studentavgs = []
+            for student in classfiles:
+                studentavgs.append(student[1][3][-1])
+            best_student_index = studentavgs.index(min(studentavgs))
+        print(f"Best Student: {student_list[best_student_index][1]}, Grade: {classfiles[best_student_index][1][-1][-1]}")
     
-    average = total / subjects  # Compute simple average
-    return average
-
 # -----------------------------------------
 # FUNCTION: Grade Equivalent Converter
 # -----------------------------------------
 
 def numericalgrade_togwa(grade):
-    if grade >= 97: 
+    if grade >= 96 : 
         return 1.00
-    elif grade >= 94:
+    elif grade >= 90 :
         return 1.25
-    elif grade >= 90:
+    elif grade >= 84 :
         return 1.50
-    elif grade >= 85: 
+    elif grade >= 78 : 
         return 1.75
-    elif grade >= 80 :
+    elif grade >= 72 :
         return 2.00
-    elif grade >= 75 :
+    elif grade >= 66 :
+        return 2.25
+    elif grade >= 60 :
         return 2.50
-    elif grade >= 70 :
+    elif grade >= 55 :
         return 2.75
+    elif grade >= 50 :
+        return 3.00
+    elif grade >= 40 :
+        return 4.00
     else :
         return 5.00
-        
 
+def gwa_tonumericalgrade(gwa):
+    if gwa >= 1.00 : 
+        return 98
+    elif gwa >= 1.25 :
+        return 93
+    elif gwa >= 1.50 :
+        return 87
+    elif gwa >= 1.75 : 
+        return 81
+    elif gwa >= 2.00 :
+        return 75
+    elif gwa >= 2.25 :
+        return 69
+    elif gwa >= 2.50 :
+        return 63
+    elif gwa >= 2.75 :
+        return 58
+    elif gwa >= 3.00 :
+        return 53
+    elif gwa >= 4.00 :
+        return 45
+    else :
+        return 20
 
 # -----------------------------------------
 # FUNCTION: Create Table Output
 # -----------------------------------------
+
 def create_table():
-    print(f"\n{name}, your grades are as follows:")
-    print ("Subjects        | Grade")
+    first_col_alignment = 10
+    student_alignment_fixing = 0
     
-    # Print each subject and grade
-    for i in range(subjects):
-        print(f"{subject_list[i]:<15} | {grades[i]:>5}")
+    for x in range(no_of_subjects):
+        if len(subject_list[x][1]) >= first_col_alignment:
+            first_col_alignment = len(subject_list[x][1]) + 1
     
-    # Print final average
-    print(f"{"Average":<15} | {finalgrade:>5}")
+    for x in range(no_of_students):
+        if grade_condition == "1":
+            if len(student_list[x][1]) > (student_alignment_fixing + 31):
+                student_alignment_fixing = len(student_list[x][1]) - 31
+        elif grade_condition == "2":
+            if len(student_list[x][1]) > (student_alignment_fixing + 22):
+                student_alignment_fixing = len(student_list[x][1]) - 22
+                
+    if grade_condition == "1":
+        align = student_alignment_fixing + 31
+    elif grade_condition == "2":
+        align = student_alignment_fixing + 23
+    
+    print("")
+    print(f"{name}, the grades are as follows:")
+    if student_teacher_condition == "2":
+        print("Students".ljust(first_col_alignment), end="")
+        if grade_condition == "2":
+            print("      ", end = "  ")
+        for student in student_list:
+            print(f"{student[1]}".ljust(align), end=" ")
+        print("")
+    print("Subjects".ljust(first_col_alignment), end="")
+    if grade_condition == "2":
+        print("Units", end = "   ")
+    for i in range(no_of_students):
+        if grade_condition == "1":
+            print("1st   2nd   3rd   4th   Final", end="   ")
+        elif grade_condition == "2":
+            print("1st   2nd   3rd   4th", end="   ")
+        for y in range(student_alignment_fixing):
+            print(" ", end="")
+    print("")
+    for i in range(no_of_subjects):
+        print(f"{subject_list[i][1]}".ljust(first_col_alignment), end="")
+        if grade_condition == "2":
+            print(f"{subject_list[i][2]}".ljust(7), end = " ")
+        for student in classfiles:
+            final = 0
+            for x in range(4):
+                if grade_condition == "1":
+                    print(f"{round(student[1][x][i])}".ljust(5), end=" ")
+                    final += student[1][x][i]
+                else:
+                    print(f"{student[1][x][i]:.2f}".ljust(5), end=" ")
+            if grade_condition == "1":
+                final = str(round(final/4))
+                print(final.ljust(5), end="   ")
+            for y in range(student_alignment_fixing):
+                print(" ", end="")
+        print("")
+    if grade_condition == "1":
+        print("Gen. Avg.".ljust(first_col_alignment), end="")
+    if grade_condition == "2":
+        total_units = 0
+        print("Avg/Total".ljust(first_col_alignment), end="")
+        for i in range(no_of_subjects):
+            total_units += subject_list[i][2]
+        print(f"{total_units}".ljust(7), end = " ")
+    for student in classfiles:
+        if grade_condition == "1":
+            avg = 0
+            print(f"{round(student[1][-1][-1])}".rjust(26), end="      ")
+            for y in range(student_alignment_fixing):
+                print(" ", end="")
+        elif grade_condition == "2":
+            for x in range(4):
+                print(f"{round(student[1][x][-1], 2)}".ljust(5), end=" ")
+            for y in range(student_alignment_fixing):
+                print(" ", end="")
+    print("")
 
 
+#CURRENTLY BROKEN DUE TO NEW VARIABLES!!!
 # -----------------------------------------
-# MAIN PROGRAM LOGIC
+# MAIN PROGRAM LOGIC !!!CURRENTLY BROKEN DUE TO NEW VARIABLES!!!
 # -----------------------------------------
+#CURRENTLY BROKEN DUE TO NEW VARIABLES!!!
 
-
-
-if condition == "1":
-    
-    # Calculate numerical grade
-    finalgrade = calculate_numerical_grade()
-    
-    print("Calculating...")
-    time.sleep(3)
-    
+def main_gradekeeper():
+    inputinfo()
     create_table()
-    
-    time.sleep(2)
-    
-    print(f"\n{name}, your final average grade is : {round(finalgrade)}")
-    
-    # Honors classification
-    if 97.5 <= finalgrade <= 100:
-        print("You achieved Highest Honors! Congratulations!")
-    elif 94.5 <= finalgrade < 97.5:
-        print("You achieved High Honors! Congratulations!")
-    elif 89.5 <= finalgrade < 94.5:
-        print("You achieved Honors! Congratulations!")
+    displayinfo()
 
-    # General remarks
-    if finalgrade >= 90:
-        print("Remark: Outstanding!")
-    elif finalgrade >= 85:
-        print("Remark: Very Satisfactory")
-    elif finalgrade >= 80:
-        print("Remark: Satisfactory")
-    elif finalgrade >= 75:
-        print("Remark: Fairly Satisfactory")
-    else:
-        print("Remark: Did Not Meet Expectations")
-    
-    # Identify best and worst subjects
-    if len(grades) == 0:
-        print("Empty list: Cannot determine highest or lowest grade.")
-    else:
-        highest_index = grades.index(max(grades))
-        lowest_index = grades.index(min(grades))
-        
-        print(f"Best Subject: {subject_list[highest_index]}, Grade: {grades[highest_index]}")
-        print(f"Worst Subject: {subject_list[lowest_index]}, Grade: {grades[lowest_index]}")
+main_gradekeeper()
 
-elif condition == "2":
-    
-    # Calculate GWA
-    finalgrade = calculate_GWA()
-    
-    print("Calculating...")
-    time.sleep(3)
-    
-    create_table()
-    
-    time.sleep(2)
-    
-    print(f"\n{name}, your final average grade is : {finalgrade:.2f}")
-    
-    # Director's List qualification
-    if finalgrade <= 1.50:
-        print("You're in the Director's List! Congratulations!")
-
-    # GWA remarks
-    if 1.25 > finalgrade >= 1.00:
-        print("Remark: Excellent!")
-    elif 1.50 >= finalgrade >= 1.25:
-        print("Remark: Very Good")
-    elif 2.00 > finalgrade > 1.50:
-        print("Remark: Good")
-    elif 2.50 >= finalgrade >= 2.00:
-        print("Remark: Satisfactory")
-    elif 3.00 >= finalgrade > 2.50:
-        print("Remark: Fair")
-    elif 5.00 >= finalgrade > 3.00:
-        print("Remark: Failed")
-        
-    # For GWA, lower value is better
-    if len(grades) == 0:
-        print("Empty list: Cannot determine highest or lowest grade.")
-    else:
-        highest_index = grades.index(min(grades))
-        lowest_index = grades.index(max(grades))
-        
-        print(f"Best Subject: {subject_list[highest_index]}, Grade: {grades[highest_index]:.2f}")
-        print(f"Worst Subject: {subject_list[lowest_index]}, Grade: {grades[lowest_index]:.2f}")
-    
-else:
-    # Handles invalid condition input
-    while (condition != "1") or (condition != "2"):
-        condition = input("Invalid condition input. Enter 1 to calculate your numerical grade, or enter 2 to calculate your GWA: ")
+print("")
 
 # -----------------------------------------
 # Random Motivational Message
 # -----------------------------------------
-messages = [ 
-    "Keep pushing!",
-    "You're doing great!",
-    "Proud of you!",
-    "Next time will be even better!"
-]
 
-print(random.choice(messages))
 
-time.sleep(5)
+
 
 # -----------------------------------------
-# CRUD FUNCTIONS (Create, Read, Update, Delete)
+# PROGRAM FUNCTIONS (Create, Read, Update, Delete) 
 # -----------------------------------------
+#READ AND UPDATE STILL NEED FIXING
 
-def add_value(new_subject, new_grade, new_units=1):
-    global subjects
-    global finalgrade
-    total_units = 0
-    finalgrade = 0
-    
-    # Add new subject data
-    subject_list.append(new_subject)
-    grades.append(new_grade)
-    units_list.append(new_units)
-    subjects += 1
-    
-    # Recalculate final grade
-    for i in range(subjects):
-        total_units += units_list[i]
-        finalgrade += (grades[i] * units_list[i])
-    finalgrade = finalgrade / total_units
-    
-    print("Subject added.")
+# ADD SUBJECT
+
+def addsubject(new_subject_id, new_subject_name, new_units):
+    global classfiles, student_list, classfiles, no_of_subjects, subject_list, no_of_students
+    subject_list.append([new_subject_id, new_subject_name, new_units])
+    no_of_subjects += 1
+    print(f"Subject '{new_subject_name}' added with {new_units} unit(s).")
+    for i in range(no_of_students):
+        classfiles[i][1].pop()
+        for q in range(4):
+            classfiles[i][1][q].pop()
+            while True:
+                try:
+                    grade = float(input(f"Enter grade of student {student_list[i][1]} for {new_subject_name} in quarter {q}: "))
+                    if grade_condition == "1":
+                        if 0 <= grade <= 100:
+                            break
+                        else:
+                            print("Grade must be between 0-100.")
+                    if grade_condition == "2":
+                        if grade == 4 or grade == 5:
+                            break
+                        for g in range (1, 3.1, 0.25):
+                            if grade == g:
+                                break
+                        else:
+                            print("Grade must be between 1.00 - 5.00.")
+                except ValueError:
+                    print("Invalid grade input! Not a number.")
+            # Store values
+            classfiles[i][1][q].append(grade)
+    calculate_averages()
+
+# ADD STUDENT 
+
+def addstudent(student_id, student_name):
+    global classfiles, student_list, classfiles, no_of_subjects, subject_list, no_of_students
+    student_list.append([student_id, student_name])
+    no_of_students += 1
+    for student in classfiles:
+        student[1].pop()
+        for q in range(4):
+            student[1][q].pop()
+    studentfiles = []
+    for q in range(4):
+        qtrstudentfiles = []
+        for i in range(no_of_subjects):
+            while True:
+                try:
+                    grade = float(input(f"Enter grade of {student_name} for {subject_list[i][1]} in quarter {q}: "))
+                    if grade_condition == "1":
+                        if 0 <= grade <= 100:
+                            break
+                        else:
+                            print("Grade must be between 0-100.")
+                    if grade_condition == "2":
+                        if grade == 4 or grade == 5:
+                            break
+                        for g in range (1, 3.1, 0.25):
+                            if grade == g:
+                                break
+                        else:
+                            print("Grade must be between 1.00 - 5.00.")
+                except ValueError:
+                    print("Invalid grade input! Not a number.")
+                # Store values
+            qtrstudentfiles.append(grade)
+        studentfiles.append(qtrstudentfiles)
+    classfiles.append([student_id, studentfiles])
+    calculate_averages()
 
 
-def get_value(subject_input):
-    subject_found = False
-    for i in range(subjects):
-        if subject_list[i].lower() == subject_input.lower():
-            return subject_input, grades[i], units_list[i]
-            subject_found = True
-    if subject_found == False:
-        return "SUBJECT NOT FOUND"
+# READ FUNCTIONS
+def readsubject(subject_id):
+    subjectfound = False
+    for subject in subject_list:
+        if subject[0] == subject_id:
+            subjectfound = True
+            subject_index = subject_list.index(subject)
+            first_col_alignment = 10
+            student_alignment_fixing = 0
+            
+            if len(subject[1]) >= first_col_alignment:
+                first_col_alignment = len(subject[1]) + 1
+            
+            for x in range(no_of_students):
+                if grade_condition == "1":
+                    if len(student_list[x][1]) > (student_alignment_fixing + 31):
+                        student_alignment_fixing = len(student_list[x][1]) - 31
+                elif grade_condition == "2":
+                    if len(student_list[x][1]) > (student_alignment_fixing + 22):
+                        student_alignment_fixing = len(student_list[x][1]) - 22
+                        
+            if grade_condition == "1":
+                align = student_alignment_fixing + 31
+            elif grade_condition == "2":
+                align = student_alignment_fixing + 23
+            
+            print("")
+            print(f"Subject ID: {subject_id}")
+            if student_teacher_condition == "2":
+                print("Students".ljust(first_col_alignment), end="")
+                if grade_condition == "2":
+                    print("      ", end = "  ")
+                for student in student_list:
+                    print(f"{student[1]}".ljust(align), end=" ")
+                print("")
+            print("Subject".ljust(first_col_alignment), end="")
+            if grade_condition == "2":
+                print("Units", end = "   ")
+            for i in range(no_of_students):
+                if grade_condition == "1":
+                    print("1st   2nd   3rd   4th   Final", end="   ")
+                elif grade_condition == "2":
+                    print("1st   2nd   3rd   4th", end="   ")
+                for y in range(student_alignment_fixing):
+                    print(" ", end="")
+            print("")
+            print(f"{subject[1]}".ljust(first_col_alignment), end="")
+            if grade_condition == "2":
+                print(f"{subject[2]}".ljust(7), end = " ")
+            for student in classfiles:
+                final = 0
+                for x in range(4):
+                    if grade_condition == "1":
+                        print(f"{round(student[1][x][subject_index])}".ljust(5), end=" ")
+                        final += student[1][x][subject_index]
+                    else:
+                        print(f"{student[1][x][subject_index]:.2f}".ljust(5), end=" ")
+                if grade_condition == "1":
+                    final = str(round(final/4))
+                    print(final.ljust(5), end="   ")
+                for y in range(student_alignment_fixing):
+                    print(" ", end="")
+            print("")
+    if not subjectfound:
+        print("Subject not found.")
+            
+def readstudent(student_id):
+    student = next((s for s in student_list if s[0] == student_id), None)
+    studentfiles = next((cf for cf in classfiles if cf[0] == student_id), None)
+    if student:
+        first_col_alignment = 10
+        student_alignment_fixing = 0
+        
+        for x in range(no_of_subjects):
+            if len(subject_list[x][1]) >= first_col_alignment:
+                first_col_alignment = len(subject_list[x][1]) + 1
+        
+        
+        if grade_condition == "1":
+            if len(student[1]) > (student_alignment_fixing + 31):
+                student_alignment_fixing = len(student_list[x][1]) - 31
+        elif grade_condition == "2":
+            if len(student[1]) > (student_alignment_fixing + 22):
+                student_alignment_fixing = len(student_list[x][1]) - 22
+                    
+        if grade_condition == "1":
+            align = student_alignment_fixing + 31
+        elif grade_condition == "2":
+            align = student_alignment_fixing + 23
+        
+        print("")
+        print(f"Student ID: {student_id}")
+        if student_teacher_condition == "2":
+            print("Student".ljust(first_col_alignment), end="")
+            if grade_condition == "2":
+                print("      ", end = "  ")
+            for student in student_list:
+                print(f"{student[1]}".ljust(align), end=" ")
+            print("")
+        print("Subjects".ljust(first_col_alignment), end="")
+        if grade_condition == "1":
+            print("1st   2nd   3rd   4th   Final", end="   ")
+        elif grade_condition == "2":
+            print("Units", end = "   ")
+            print("1st   2nd   3rd   4th", end="   ")
+        for y in range(student_alignment_fixing):
+            print(" ", end="")
+        print("")
+        for i in range(no_of_subjects):
+            print(f"{subject_list[i][1]}".ljust(first_col_alignment), end="")
+            if grade_condition == "2":
+                print(f"{subject_list[i][2]}".ljust(7), end = " ")
+            final = 0
+            for x in range(4):
+                if grade_condition == "1":
+                    print(f"{round(studentfiles[1][x][i])}".ljust(5), end=" ")
+                    final += studentfiles[1][x][i]
+                else:
+                    print(f"{studentfiles[1][x][i]:.2f}".ljust(5), end=" ")
+            if grade_condition == "1":
+                final = str(round(final/4))
+                print(final.ljust(5), end="   ")
+            for y in range(student_alignment_fixing):
+                print(" ", end="")
+            print("")
+        if grade_condition == "1":
+            print("Gen. Avg.".ljust(first_col_alignment), end="")
+            avg = 0
+            print(f"{round(studentfiles[1][-1][-1])}".rjust(26), end="      ")
+            for y in range(student_alignment_fixing):
+                print(" ", end="")
+        if grade_condition == "2":
+            total_units = 0
+            print("Avg/Total".ljust(first_col_alignment), end="")
+            for i in range(no_of_subjects):
+                total_units += subject_list[i][2]
+            print(f"{total_units}".ljust(7), end = " ")
+            for x in range(4):
+                print(f"{round(studentfiles[1][x][-1], 2)}".ljust(5), end=" ")
+            for y in range(student_alignment_fixing):
+                print(" ", end="")
+    else:
+        print("Student not found.")
+                
+def readquarter(quarter):
+    quarterexists = False
+    try:
+        int(quarter)
+    except ValueError:
+        print("Quarter does not exist.")
+    finally:
+        if 0 < int(quarter) < 5:
+            quarterexists = True
+        else:
+            print("Quarter does not exist.")
+    if quarterexists:
+        first_col_alignment = 10
+        student_alignment_fixing = 0
+        
+        for x in range(no_of_subjects):
+            if len(subject_list[x][1]) >= first_col_alignment:
+                first_col_alignment = len(subject_list[x][1]) + 1
+        
+        for x in range(no_of_students):
+            if len(student_list[x][1]) > (student_alignment_fixing + 6):
+                student_alignment_fixing = len(student_list[x][1]) - 6
+                    
+        align = student_alignment_fixing + 6
+        
+        print("")
+        print(f"Quarter {quarter}")
+        if student_teacher_condition == "2":
+            print("Students".ljust(first_col_alignment), end="")
+            if grade_condition == "2":
+                print("      ", end = "  ")
+            for student in student_list:
+                print(f"{student[1]}".ljust(align), end=" ")
+            print("")
+        print("Subjectrs".ljust(first_col_alignment), end="")
+        if grade_condition == "2":
+            print("Units", end = "   ")
+        for i in range(no_of_students):
+            print(f"Grade", end="   ")
+            for y in range(student_alignment_fixing):
+                print(" ", end="")
+        print("")
+        for i in range(no_of_subjects):
+            print(f"{subject_list[i][1]}".ljust(first_col_alignment), end="")
+            if grade_condition == "2":
+                print(f"{subject_list[i][2]}".ljust(7), end = " ")
+            for student in classfiles:
+                if grade_condition == "1":
+                    print(f"{round(student[1][quarter-1][i])}".ljust(5), end=" ")
+                    final += student[1][quarter-1][i]
+                else:
+                    print(f"{student[1][x][i]:.2f}".ljust(5), end=" ")
+                for y in range(student_alignment_fixing):
+                    print(" ", end="")
+            print("")
+            
 
+# UPDATE FUNCTIONS (tweaked)
 
-def update_value(subject_input, new_subject, new_grade, new_units=1):
-    global finalgrade
-    total_units = 0
-    finalgrade = 0
-    subject_found = False
-    
-    for i in range(subjects):
-        if subject_list[i].lower() == subject_input.lower():
-            subject_list[i] = new_subject
-            grades[i] = new_grade
-            units_list[i] = new_units
+def updatesubject(subject_id, new_name=None, new_units=None, update_grades=False): #done
+    subjectnotfound = True
+    for subject in subject_list:
+        if subject_id == subject[0]:
+            subjectnotfound = False
+            if new_name:
+                subject_list[subject_index][1] = new_name
+            if new_units:
+                subject_list[subject_index][2] = new_units
+                for student in classfiles:
+                    student.pop(student[1][-1])
+                    for i in range(4):
+                        student.pop(student[1][i][subject_index])
+                calculate_averages()
+            if update_grades:
+                for student in classfiles:
+                    student.pop(student[1][-1])
+                    for i in range(4):
+                        student.pop(student[1][i][subject_index])
+                        student.pop(student[1][i][-1])
+                        qtrstudentfiles = []
+                        while True:
+                            try:
+                                grade = float(input(f"Enter new grade of {student[1]} for {subject_list[i][0]} in quarter {q}: "))
+                                if grade_condition == "1":
+                                    if 0 <= grade <= 100:
+                                        break
+                                    else:
+                                        print("Grade must be between 0-100.")
+                                if grade_condition == "2":
+                                    if grade == 4 or grade == 5:
+                                        break
+                                    for g in range (1, 3.1, 0.25):
+                                        if grade == g:
+                                            break
+                                    else:
+                                        print("Grade must be between 1.00 - 5.00.")
+                            except ValueError:
+                                print("Invalid grade input! Not a number.")
+                            # Store values
+                            student[1][q].append(grade)
+                calculate_averages()
             print("Subject updated.")
-            
-            # Recalculate final grade
-            for i in range(subjects):
-                total_units += units_list[i]
-                finalgrade += (grades[i] * units_list[i])
-            finalgrade = finalgrade / total_units
-            subject_found = True
-            
-    if subject_found == False:
-        print("Error: Subject not found.")
+    if subjectnotfound == True:
+        print("Subject not found.")
 
+def updatequarter(quarter):
+    quarterformat = False
+    try:
+        int(quarter)
+    except ValueError:
+        print("Quarter not an integer.")
+    finally:
+        if 0 < quarter < 5:
+            quarterformat = True
+        else:
+            print("Quarter out of range.")
+    if quarterformat:
+        for student in classfiles:
+            student[1].pop()
+            for i in range(no_of_subjects):
+                for x in range(4):
+                    student[1][x][i].pop()
+                while True:
+                    try:
+                        grade = float(input(f"Enter grade of {student[1]} for {subject_list[i][1]} in quarter {quarter}: "))
+                        if grade_condition == "1":
+                            if 0 <= grade <= 100:
+                                break
+                            else:
+                                print("Grade must be between 0-100.")
+                        if grade_condition == "2":
+                            if grade == 4 or grade == 5:
+                                break
+                            for g in range (1, 3.1, 0.25):
+                                if grade == g:
+                                    break
+                            else:
+                                print("Grade must be between 1.00 - 5.00.")
+                    except ValueError:
+                        print("Invalid grade input! Not a number.")
+                student[1][quarter - 1][i] = grade
 
-def delete_value(subject_input):
-    global subjects
-    global finalgrade
-    total_units = 0
-    finalgrade = 0
-    subject_found = False
+def updatestudent(student_id, new_name=None, update_grades=False): #done
+    student_info = next((s for s in student_list if s[0] == student_id), None)
+    studentclassfiles = next((cf for cf in classfiles if cf[0] == student_id), None)
+    if student_info:
+        if new_name:
+            student[1] = new_name
+        if updategrades:
+            studentclassfiles.pop(1)
+            studentfiles = []
+            for q in range(4):
+                totalqtrgrade = 0
+                qtrstudentfiles = []
+                for i in range(no_of_subjects):
+                    while True:
+                        try:
+                            grade = float(input(f"Enter grade of {student[1]} for {subject_list[i][1]} in quarter {q}: "))
+                            if grade_condition == "1":
+                                if 0 <= grade <= 100:
+                                    break
+                                else:
+                                    print("Grade must be between 0-100.")
+                            if grade_condition == "2":
+                                if grade == 4 or grade == 5:
+                                    break
+                                for g in range (1, 3.1, 0.25):
+                                    if grade == g:
+                                        break
+                                else:
+                                    print("Grade must be between 1.00 - 5.00.")
+                        except ValueError:
+                            print("Invalid grade input! Not a number.")
+                        # Store values
+                    qtrstudentfiles.append(grade)
+                    totalqtrgrade += grade
+                qtravg = totalqtrgrade / no_of_subjects
+                qtrstudentfiles.append(qtravg)
+                studentfiles.append(qtrstudentfiles)
+            averages = []
+            for i in range(no_of_subjects):
+                totalgrade = 0
+                totalunits = 0
+                for x in range(4):
+                    totalgrade += studentfiles[x][i]
+                    totalunits += subject_list[i][2]
+                average = totalgrade / totalunits
+                averages.append(average)
+            studentfiles.append(averages)
+            studentclassfiles.append(studentfiles)
+        print("Student updated.")
+    else:
+        print("Student not found.")
+
+# DELETE FUNCTIONS
+def deletesubject(subject_id): #done
+    global subject_list, classfiles, no_of_subjects
+    subjectfound = False
+    for subject in subject_list:
+        if subject[0] == subject_id:
+            subjectindex = subject_list.index(subject)
+            subject_list.pop(subjectindex)
+            subjectfound = True
+    if subjectfound:
+        no_of_subjects -= 1
+        for student in classfiles:
+            for q in range(4):
+                student[1][q].pop()
+                student[1][q].pop(subjectindex)
+            student[1].pop()
+        calculate_averages()
+        print("Subject deleted.")
+    else:
+        print("Subject not found.")
+
+def deletestudent(student_id): #done
+    global student_list, classfiles, no_of_students
+    student = next((s for s in student_list if s[0] == student_id), None)
+    if student:
+        no_of_students -= 1
+        student_list = [s for s in student_list if s[0] != student_id]
+        classfiles = [cf for cf in classfiles if cf[0] != student_id]
+        print(f"Student '{student[1]}' deleted.")
+    else:
+        print("Student not found.")
+        
+
+#GRADE TREND YADAYADA
+def show_grade_trend():
+    print("")
+    first_col_alignment = 14
+    student_alignment_fixing = 0
     
-    for i in range(subjects):
-        if subject_list[i].lower() == subject_input.lower():
-            subjects -= 1
-            subject_list.remove(subject_list[i])
-            grades.remove(grades[i])
-            units_list.remove(units_list[i])
-            print("Subject deleted.")
-            
-            # Recalculate final grade
-            for i in range(subjects):
-                total_units += units_list[i]
-                finalgrade += (grades[i] * units_list[i])
-            finalgrade = finalgrade / total_units
-            
-            subject_found = True
-            break
+    for x in range(no_of_subjects):
+        if len(subject_list[x][1]) >= first_col_alignment:
+            first_col_alignment = len(subject_list[x][1]) + 1
     
-    if subject_found == False:
-        return "SUBJECT NOT FOUND"
+    for x in range(no_of_students):
+        if len(student_list[x][1]) > (student_alignment_fixing + 48):
+            student_alignment_fixing = len(student_list[x][1]) - 48
+                
+    align = student_alignment_fixing + 47
+    
+    if student_teacher_condition == "2":
+        print("Students".ljust(first_col_alignment), end="")
+        for student in student_list:
+            print(f"{student[1]}".ljust(align), end=" ")
+        print("")
+    print("Grade Trends".ljust(first_col_alignment), end="")
+    for i in range(no_of_students):
+        for x in range(1, 4):
+            print(f"Qtr {x} -> {x+1}", end="  ") 
+        print ("Overall", end="     ")
+    print("")
+    for i in range(no_of_subjects):
+        print(subject_list[i][1].ljust(first_col_alignment), end = "")
+        for student in classfiles:
+            for x in range(3):
+                if student[1][x+1][i] > student[1][x][i]:
+                    print("Increase", end="")
+                if student[1][x+1][i] == student[1][x][i]:
+                    print("Maintain", end="")
+                if student[1][x+1][i] < student[1][x][i]:
+                    print("Decrease", end="")
+                print("    ", end ="")
+            if student[1][-1][i] > student[1][0][i]:
+                print("Increase", end="") 
+            if student[1][-1][i] == student[1][0][i]:
+                print("Maintain", end="")
+            if student[1][-1][i] < student[1][0][i]:
+                print("Decrease", end="") 
+            print("    ", end="")
+        print("")
+    print("Average".ljust(first_col_alignment), end="")
+    for student in classfiles:
+        for x in range(3):
+            if student[1][x+1][-1] > student[1][0][-1]:
+                print("Increase", end="")
+            if student[1][x+1][-1] == student[1][0][-1]:
+                print("Maintain", end="")
+            if student[1][x+1][-1] < student[1][0][-1]:
+                print("Decrease", end="")
+            print("    ", end="")
+        if student[1][-1][-1] > student[1][0][-1]:
+            print("Increase", end="")
+        if student[1][-1][-1] == student[1][0][-1]:
+            print("Maintain", end="")
+        if student[1][-1][-1] < student[1][0][-1]:
+            print("Decrease", end="")
+        print("    ", end="")
+    print("")
+    
+def grade_conversion():
+    global grade_condition, no_of_subjects, classfiles
+    if grade_condition == "1":
+        print("Converting numerical grade to gwa...")
+        grade_condition = "2"
+    elif grade_condition == "2":
+        print("Converting gwa to numerical grade...")
+        grade_condition = "1"
+    for student in classfiles:
+        student[1].pop()
+        for x in range(4):
+            student[1][x].pop()
+            for i in range(no_of_subjects):
+                if grade_condition == "2":
+                    student[1][x][i] = numericalgrade_togwa(student[1][x][i])
+                if grade_condition == "1":
+                    student[1][x][i] = gwa_tonumericalgrade(student[1][x][i])
+    calculate_averages()
+    print("Successfully converted.")
 
+#CURRENTLY BROKEN DUE TO NEW VARIABLES!!!
 # -----------------------------------------
-# CRUD LOOP
+# program LOOP !!!CURRENTLY BROKEN DUE TO NEW VARIABLES!!!
 # -----------------------------------------
+#CURRENTLY BROKEN DUE TO NEW VARIABLES!!!
 
 while True:
-print("\nCRUD OPTIONS")
-print("1 - Create Student")
-print("2 - Delete Student")
-print("3 - Add Subject")
-print("4 - Read Grade")
-print("5 - Update Grade")
-print("6 - Delete Subject")
-print("7 - Show Average")
-print("8 - Exit")
+    print("")
+    print("Enter 1 to add information")
+    print("Enter 2 to read information") 
+    print("Enter 3 to update information") 
+    print("Enter 4 to remove information") 
+    print("Enter 5 to reinput all information") 
+    print("Enter 6 to redisplay table") 
+    print("Enter 7 to repeat info") 
+    print("Enter 8 to display grade trends")
+    print("Enter 9 to perform grade conversion")
+    print("Enter 10 to end program") 
+    program_condition = input("Enter here: ")
+    print("") 
+    if program_condition == "1":
+        while True:
+            if student_teacher_condition == "2":
+                print("Enter 1 to add subject")
+                print("Enter 2 to add student")
+                print("Enter 3 to return to menu")
+                subject_student_condition = input("Enter here: ")
+            else:
+                subject_student_condition = "1"
+            if subject_student_condition == "1":
+                subject_toadd = input("Enter the ID of the new subject: ")
+                new_subject_name = input("Enter the name of the new subject: ")
+                if grade_condition == "1":
+                    new_subject_units = 1
+                elif grade_condition == "2":
+                    while True:
+                        new_subject_units = ("Enter the units of the new subject: ")
+                        try:
+                            new_subject_units = float(new_subject_units)
+                        except ValueError:
+                            print("Invalid unit input! Not a number.")
+                addsubject(subject_toadd, new_subject_name, new_subject_units)
+                break
+            if subject_student_condition == "2":
+                student_toadd = input("Enter ID of new student:")
+                new_student_name = input("Enter name of new student:")
+                addstudent(student_toadd, new_student_name)
+                break
+            if subject_student_condition == "3":
+                break
+            print("Invalid input. Input again.")
 
-choice = input("Enter: ")
-
-if choice == "1":
-name = input("Student name: ")
-create_student(name)
-
-elif choice == "2":
-name = input("Student name: ")
-delete_student(name)
-
-elif choice == "3":
-name = input("Student name: ")
-subject = input("Subject: ")
-grade = float(input("Grade: "))
-units = float(input("Units: "))
-add_subject(name, subject, grade, units)
-
-elif choice == "4":
-name = input("Student name: ")
-subject = input("Subject: ")
-read_grade(name, subject)
-
-elif choice == "5":
-name = input("Student name: ")
-subject = input("Subject: ")
-grade = float(input("New Grade: "))
-update_grade(name, subject, grade)
-
-elif choice == "6":
-name = input("Student name: ")
-subject = input("Subject: ")
-delete_subject(name, subject)
-
-elif choice == "7":
-name = input("Student name: ")
-compute_average(name)
-
-elif choice == "8":
-print("Goodbye!")
-break
-
-
-    if crud_condition == "1":
-        new_subject = input("Enter new subject: ")
-        new_grade = input("Enter grade of new subject: ")
-        if condition == "1":
+    elif program_condition == "2":
+        while True:
+            print("Enter 1 to read subject")
+            if student_teacher_condition == "1":
+                print("Enter 2 to read quarter")
+                print("Enter 3 to return to menu.")
+                subject_student_condition = input("Enter here: ")
+                if subject_student_condition == "2":
+                    quarter_toread = input("Enter the quarter you want to read:")
+                    readquarter(quarter_toread)
+                    break
+                if subject_student_condition == "3":
+                    break
+            if student_teacher_condition == "2":
+                print("Enter 2 to read student")
+                print("Enter 3 to read quarter")
+                print("Enter 4 to return to menu.")
+                subject_student_condition = input("Enter here: ")
+                if subject_student_condition == "2":
+                    student_toread = input("Enter the id of the student you want to read: ")
+                    readstudent(student_toread)
+                    break
+                if subject_student_condition == "3":
+                    quarter_toread = input("Enter the quarter you want to read:")
+                    readquarter(quarter_toread)
+                    break
+                if subject_student_condition == "4":
+                    break
+            if subject_student_condition == "1":
+                subject_toread = input("Enter the name of the subject you want to read: ")
+                readsubject(subject_toread)
+                break
+            print("Invalid input. Input again.")
             
-            gradeisfloat = False
-            
-            while gradeisfloat == False:
-                try:
-                    float(new_grade)
-                except ValueError:
-                    print("Invalid input! Not a number.")
-                    new_grade = input("Enter again: ")
-                else:
-                    new_grade = float(new_grade)
-                    gradeisfloat = True
-            
-            # Validation for GWA range
-            while new_grade < 0 or new_grade > 100:
-                grade = input(f"Invalid input! Enter grade for {subject_name} (0-100): ")
-                gradeisfloat = False
-                while gradeisfloat == False:
-                    try:
-                        float(grade)
-                    except ValueError:
-                        print("Invalid input! Not a number.")
-                        grade = input("Enter again: ")
-                    else:
-                        grade = float(grade)
-                        gradeisfloat = True
-            
-            new_units = 1
-            
-        else:
-            
-            new_units = input("Enter units of new subject: ")
-            
-            unitsisfloat = False
-            gwaisfloat = False
-            
-            while unitsisfloat == False:
-                try:
-                    float(new_units)
-                except ValueError:
-                    print("Invalid unit input! Not a number.")
-                    new_units = input("Enter again: ")
-                else:
-                    new_units = float(new_units)
-                
-            while gwaisfloat == False:
-                try:
-                    float(new_grade)
-                except ValueError:
-                    print("Invalid gwa input! Not a number.")
-                    new_grade = input("Enter again: ")
-                else:
-                    new_grade = float(new_grade)
-                    gwaisfloat = True
-                
-            # Validation for GWA range
-            while new_grade < 1.00 or new_grade > 5.00:
-                new_grade = input(f"Invalid gwa input! Enter GWA for {subject_name} (1.00-5.00): ")
-                gwaisfloat = False
-                while gwaisfloat == False:
-                    try:
-                        float(new_grade)
-                    except ValueError:
-                        print("Invalid input! Not a number.")
-                        new_grade = input("Enter again: ")
-                    else:
-                        new_grade = float(new_grade)
-                        gwaisfloat = True
-        add_value(new_subject, new_grade, new_units)
-            
-    if crud_condition == "2":
-        subject_input = input("Enter the name of the subject you want to check: ")
-        print(get_value(subject_input))
+    elif program_condition == "3":
+        while True:
+            print("Enter 1 to update subject")
+            if student_teacher_condition == "1":
+                print("Enter 2 to update quarter")
+                print("Enter 3 to return to menu.")
+                subject_student_condition = input("Enter here: ")
+            if student_teacher_condition == "2":
+                print("Enter 2 to update student")
+                print("Enter 3 to update quarter")
+                print("Enter 4 to return to menu.")
+                subject_student_condition = input("Enter here: ")
+            if subject_student_condition == "1":
+                subject_toupdate = input("Enter the name of the subject you want to update: ")
+                while True:
+                    print("Enter 1 to update the name of the subject.")
+                    if grade_condition == "1":
+                        print("Enter 2 to update the grades of the subject.")
+                        print("Enter 3 to go back to the update menu.")
+                        subject_update_condition = input("Enter here: ")
+                        if subject_update_condition == "2":
+                            updatesubject(subject_toupdate, update_grades=True)
+                            break
+                        if subject_update_condition == "3":
+                            break
+                    if grade_condition == "2":
+                        print("Enter 2 to update the units of the subject.")
+                        print("Enter 3 to update the grades of the subject.")
+                        print("Enter 4 to go back to the update menu.")
+                        subject_update_condition = input("Enter here: ")
+                        if subject_update_condition == "2":
+                            while True:
+                                try:
+                                    new_subject_units = int(input("Enter new units of subject: "))
+                                except ValueError:
+                                    input("Invalid input: not an integer.")
+                            updatesubject(subject_toupdate, new_units=new_subject_units)
+                            break
+                        if subject_update_condition == "3":
+                            updatesubject(subject_toupdate, update_grades=True)
+                            break
+                        if subject_update_condition == "4":
+                            break
+                    if subject_update_condition == "1":
+                        new_subject_name = input("Enter new name of subject: ")
+                        updatesubject(subject_toupdate, new_name=new_subject_name)
+                        break
+                    print("Invalid input. Input again.")
+            break
+            if subject_student_condition == "2":
+                if student_teacher_condition == "1":
+                    quarter_toupdate = input("Enter the quarter you want to update the grades of:")
+                    updatequarter(quarter_toupdate)
+                if student_teacher_condition == "2":
+                    student_toupdate = input("Enter the id of the student you want to update: ")
+                    while True:
+                        print("Enter 1 to update the name of the student.")
+                        print("Enter 2 to update the grades of the student.")
+                        print("Enter 3 to go back to the update menu.")
+                        student_update_condition = input("Enter here: ")
+                        if student_update_condition == "1":
+                            new_student_name = input("Enter new name of student: ")
+                            updatestudent(student_toupdate, new_name = new_student_name)
+                            break
+                        if student_update_condition == "2":
+                            updatestudent(student_toupdate, update_grades = True)
+                            break
+                        if student_update_condition == "3":
+                            break
+                        print("Invalid input. Input again.")
+                break
+            if subject_student_condition == "3":
+                if student_teacher_condition == "2":
+                    quarter_toupdate = input("Enter the quarter you want to update the grades of:")
+                    updatequarter(quarter_toupdate)
+                break
+            if subject_student_condition == "4":
+                if student_teacher_condition == "2":
+                    break
+            print("Invalid input. Input again.")
         
-    if crud_condition == "3":
-        subject_input = input("Enter the name of the subject you want to update: ")
-        new_subject = input("Update subject name: ")
-        new_grade = input("Update subject grade: ")
-        if condition == "1":
-            
-            gradeisfloat = False
-            
-            while gradeisfloat == False:
-                try:
-                    float(new_grade)
-                except ValueError:
-                    print("Invalid input! Not a number.")
-                    new_grade = input("Enter again: ")
-                else:
-                    new_grade = float(new_grade)
-                    gradeisfloat = True
-            
-            # Validation for GWA range
-            while new_grade < 0 or new_grade > 100:
-                grade = input(f"Invalid input! Enter grade for {subject_name} (0-100): ")
-                gradeisfloat = False
-                while gradeisfloat == False:
-                    try:
-                        float(grade)
-                    except ValueError:
-                        print("Invalid input! Not a number.")
-                        grade = input("Enter again: ")
-                    else:
-                        grade = float(grade)
-                        gradeisfloat = True
-            
-            new_units = 1
-            
-        else:
-            
-            new_units = input("Enter units of new subject: ")
-            
-            unitsisfloat = False
-            gwaisfloat = False
-            
-            while unitsisfloat == False:
-                try:
-                    float(new_units)
-                except ValueError:
-                    print("Invalid unit input! Not a number.")
-                    new_units = input("Enter again: ")
-                else:
-                    new_units = float(new_units)
-                
-            while gwaisfloat == False:
-                try:
-                    float(new_grade)
-                except ValueError:
-                    print("Invalid gwa input! Not a number.")
-                    new_grade = input("Enter again: ")
-                else:
-                    new_grade = float(new_grade)
-                    gwaisfloat = True
-                
-            # Validation for GWA range
-            while new_grade < 1.00 or new_grade > 5.00:
-                new_grade = input(f"Invalid gwa input! Enter GWA for {subject_name} (1.00-5.00): ")
-                gwaisfloat = False
-                while gwaisfloat == False:
-                    try:
-                        float(new_grade)
-                    except ValueError:
-                        print("Invalid input! Not a number.")
-                        new_grade = input("Enter again: ")
-                    else:
-                        new_grade = float(new_grade)
-                        gwaisfloat = True
-        update_value(subject_input, new_subject, new_grade, new_units=1)
+    elif program_condition == "4":
+        while True:
+            if student_teacher_condition == "2":
+                print("Enter 1 to delete subject")
+                print("Enter 2 to delete student")
+                print("Enter 3 to go back to menu.")
+                subject_student_condition = input("Enter here: ")
+            else:
+                subject_student_condition = "1"
+            if subject_student_condition == "1":
+                subject_name_todelete = input("Enter the name of the subject to delete: ")
+                deletesubject(subject_name_todelete)
+                break
+            if subject_student_condition == "2":
+                student_id_todelete = input("Enter name of the student to delete:")
+                deletestudent(student_id_todelete)
+                break
+            if subject_student_condition == "3":
+                break
+            print("Invalid input. Input again.")
+    
+    elif program_condition == "5":
+        input_info()
         
-    if crud_condition == "4":
-        subject_input = input("Enter the name of the subject you want to delete: ")
-        delete_value(subject_input)
-        
-    if crud_condition == "5":
+    elif program_condition == "6":
         create_table()
         
-    if crud_condition == "6":
+    elif program_condition == "7":
+        displayinfo()
+    
+    elif program_condition == "8":
+        show_grade_trend()
+        
+    elif program_condition == "9":
+        grade_conversion()
+    
+    elif program_condition == "10":
         print("Ending program...")
-        time.sleep(2)
-        program_ongoing = False
+        
+        break
+    
+    else:
+        print("")
+        print("Invalid input. Input again.")
+        print("")
 
 print("Thank you for using Gradekeeper!")
