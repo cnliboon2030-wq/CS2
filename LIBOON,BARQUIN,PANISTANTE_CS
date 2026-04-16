@@ -76,6 +76,7 @@ classfiles = list() #formerly 'grades' (+ student info)
 
 def input_subjects():
     for i in range(no_of_subjects):  # Loop through each subject
+        print("")
         while True:
             subjectidisunique = True
             subject_id = input(f"Enter subject ID of subject {i+1}: ")
@@ -103,6 +104,7 @@ def input_subjects():
 
 def input_students():
     for i in range(no_of_students):  # Loop through each subject
+        print("")
         while True:
             studentidisunique = True
             student_id = input(f"Enter student ID of student {i+1}: ")
@@ -116,6 +118,7 @@ def input_students():
         student_list.append([student_id, student_name])
 
 def input_grade():
+    print("")
     for student in student_list:
         studentfiles = []
         for q in range(1, 5):
@@ -132,9 +135,12 @@ def input_grade():
                         if grade_condition == "2":
                             if grade == 4 or grade == 5:
                                 break
+                            break_loop = False
                             for g in range (4, 13, 1):
-                                if grade == 4*g:
-                                    break
+                                if grade == g/4:
+                                    break_loop = True
+                            if break_loop:
+                                break
                             else:
                                 print("Grade must be between 1.00 - 5.00 and follow standard gwa format.")
                     except ValueError:
@@ -443,8 +449,7 @@ print("")
 # Random Motivational Message
 # -----------------------------------------
 
-
-
+ 
 
 # -----------------------------------------
 # PROGRAM FUNCTIONS (Create, Read, Update, Delete, and more) 
@@ -522,7 +527,6 @@ def addstudent(student_id, student_name):
         studentfiles.append(qtrstudentfiles)
     classfiles.append([student_id, studentfiles])
     calculate_averages()
-
 
 # READ FUNCTIONS
 def readsubject(subject_id):
@@ -984,11 +988,9 @@ def grade_conversion():
     calculate_averages()
     print("Successfully converted.")
 
-
 # -----------------------------------------
 # PROGRAM LOOP 
 # -----------------------------------------
-
 
 while True:
     print("")
@@ -1211,8 +1213,6 @@ while True:
         print("")
         print("Invalid input. Input again.")
         print("")
-
-
 
 print("Thank you for using Gradekeeper!")
 print("Ending program...")
