@@ -153,15 +153,16 @@ def calculate_averages():
             qtravg = totalqtrgrade / no_of_subjects
             student[1][x].append(qtravg)
         averages = []
-        for i in range(no_of_subjects):
-            totalgrade = 0
-            totalunits = 0
-            for x in range(4):
-                totalgrade += student[1][x][i]
-                totalunits += subject_list[i][2]
-            average = totalgrade / totalunits
-            averages.append(average)
-        student[1].append(averages)
+        if grade_condition == 1:
+            for i in range(no_of_subjects):
+                totalgrade = 0
+                totalunits = 0
+                for x in range(4):
+                    totalgrade += student[1][x][i]
+                    totalunits += subject_list[i][2]
+                average = totalgrade / totalunits
+                averages.append(average)
+            student[1].append(averages)
 
 def inputinfo():
     input_subjects()
