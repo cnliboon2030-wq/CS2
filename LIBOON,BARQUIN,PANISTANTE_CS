@@ -153,7 +153,7 @@ def calculate_averages():
             qtravg = totalqtrgrade / no_of_subjects
             student[1][x].append(qtravg)
         averages = []
-        if grade_condition == 1:
+        if grade_condition == "1":
             for i in range(no_of_subjects):
                 totalgrade = 0
                 totalunits = 0
@@ -458,7 +458,8 @@ def addsubject(new_subject_id, new_subject_name, new_units):
     no_of_subjects += 1
     print(f"Subject '{new_subject_name}' added with {new_units} unit(s).")
     for i in range(no_of_students):
-        classfiles[i][1].pop()
+        if grade_condition == "1":
+            classfiles[i][1].pop()
         for q in range(4):
             classfiles[i][1][q].pop()
             while True:
@@ -490,7 +491,8 @@ def addstudent(student_id, student_name):
     student_list.append([student_id, student_name])
     no_of_students += 1
     for student in classfiles:
-        student[1].pop()
+        if grade_condition == "1":
+            student[1].pop()
         for q in range(4):
             student[1][q].pop()
     studentfiles = []
@@ -742,7 +744,8 @@ def updatesubject(subject_id, new_name=None, new_units=None, update_grades=False
                 calculate_averages()
             if update_grades:
                 for student in classfiles:
-                    student.pop(student[1][-1])
+                    if grade_condition == "1":
+                        student.pop(student[1][-1])
                     for i in range(4):
                         student.pop(student[1][i][subject_index])
                         student.pop(student[1][i][-1])
@@ -785,7 +788,8 @@ def updatequarter(quarter):
             print("Quarter out of range.")
     if quarterformat:
         for student in classfiles:
-            student[1].pop()
+            if grade_condition == "1":
+                student[1].pop()
             for i in range(no_of_subjects):
                 for x in range(4):
                     student[1][x][i].pop()
@@ -876,7 +880,8 @@ def deletesubject(subject_id): #done
             for q in range(4):
                 student[1][q].pop()
                 student[1][q].pop(subjectindex)
-            student[1].pop()
+            if grade_condition == "1":
+                student[1].pop()
         calculate_averages()
         print("Subject deleted.")
     else:
@@ -1200,8 +1205,6 @@ while True:
         grade_conversion()
     
     elif program_condition == "10":
-        print("Ending program...")
-        
         break
     
     else:
@@ -1209,5 +1212,10 @@ while True:
         print("Invalid input. Input again.")
         print("")
 
+
+
 print("Thank you for using Gradekeeper!")
+print("Ending program...")
 time.sleep(5)
+
+#PSHS CRC Grade 8 Daffodil - Liboon, Barquin, Panistante
