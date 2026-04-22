@@ -706,7 +706,7 @@ def readquarter(quarter):
             for student in student_list:
                 print(f"{student[1]}".ljust(align), end=" ")
             print("")
-        print("Subjectrs".ljust(first_col_alignment), end="")
+        print("Subjects".ljust(first_col_alignment), end="")
         if grade_condition == "2":
             print("Units", end = "   ")
         for i in range(no_of_students):
