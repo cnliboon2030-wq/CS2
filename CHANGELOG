@@ -2,6 +2,23 @@
 
 This file lists all of the updates made to our project : Gradekeeper.
 
+## Version 1.9 - Created April 17, 2026, Updated April 17, 2026
+- Debugging of code
+
+## Version 1.8 - Created April 16, 2026, Updated April 16, 2026
+- Added Teacher Support Module 
+    - expands the system into a teacher assistance tool
+- Automatic Final 4th quarter grade calculation
+    - computes simple average or GWA
+- Grade Trend Monitoring
+    - tracks performance over quarters
+- Reinputting Subjects
+    - allows complete overhaul in the curriculum without having to update each subject one by one
+- Redisplay Information
+    - presents the user’s summarized grade report even after updates
+
+
+
 ## Version 1.7 - Created March 18, 2026, Updated March 18, 2026
 - Added Grade Equivalent Converter 
     - converts numerical grade to GWA
